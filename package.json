@@ -1,0 +1,48 @@
+{
+  "name": "talko.io",
+  "version": "1.0.0",
+  "description": "a simple, attractive and free chat messenger system :)",
+  "main": "talko.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahsankhan1911/talko.io.git"
+  },
+  "keywords": [
+    "chat",
+    "messenger"
+  ],
+  "author": "Ahsan Khan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bcrypt": "^3.0.4",
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.17.1",
+    "bunyan": "^1.8.12",
+    "bunyan-debug-stream": "^2.0.0",
+    "compression": "^1.7.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "jsonwebtoken": "^8.5.0",
+    "lodash": "^4.17.11",
+    "mongoose": "^4.13.10",
+    "multer": "^1.4.1",
+    "nodemailer": "^5.1.1",
+    "path": "^0.12.7",
+    "randomstring": "^1.1.5",
+    "socket.io": "^2.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/ahsankhan1911/talko.io/issues"
+  },
+  "homepage": "https://github.com/ahsankhan1911/talko.io#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
