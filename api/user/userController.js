@@ -72,3 +72,13 @@ exports.verifyCode = (request, response) => {
         responseHandler.sendError(response, error)
     })
 }
+
+exports.sendContactReq =  (request, response) => {
+    let {senderId, receiverId} = request.body;
+
+       userDoa.sendContactReq({email, verificationCode}).then((result) => {
+             responseHandler.sendSuccess(response, {responceMessage: "You have successfully verified your account", accessToken: result.accessToken, userId: result.user._id, email: result.user.email})
+       }).catch((error) => {    
+        responseHandler.sendError(response, error)
+    })
+}

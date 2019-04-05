@@ -10,12 +10,29 @@ var UserSchema = new Schema({
   phone: { type: String },
   gender: { type: String, enum: ['male', 'female', 'other'] },
   profilePicture: { type: String ,default:  '/images/default_user.jpeg'},
-  contacts : [{type : mongoose.Schema.Types.ObjectId, ref: 'User', default: []}], 
+  contacts : [{
+    _id: false,
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    addedAt: {type :Number}
+  }
+  ], 
+  contactRequests: [{
+    _id: false,
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
+    requestedAt: {type: Number},
+    requestMessage: {type: String, default: "Hey ! Would like to chat with me on Talko "},
+    isAccepted: {type: Boolean, default: false}
+  }],
   age: { type: Number },
   isActive: {type: Boolean, default: true},
   isVerified: {type: Boolean, default: false},
   accountVerificationCode: {type: Number, default: null},
-  blockedUsers: [{type:mongoose.Schema.Types.ObjectId, ref: 'User',  default: []}],
+  blockedUsers: [{
+    _id:false,
+    userId:{type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
+    blockedAt: {type: Number}
+  }
+  ],
   accessToken : {type:  Array, default: []}
 },{
   versionKey:false,
