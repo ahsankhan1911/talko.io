@@ -125,6 +125,18 @@ var verifyCode = (userData) =>  {
      })
 }
 
+var sendContactReq = (userData) => {
+    let condition = {_id: userData.receiverId }
+     var contactData = {
+        userId : appUtils._convertToObjectIds( userData.senderId),
+        requestedAt : Date.now(),
+        requestMessage : userData.requestMessage
+
+     }
+    let update = { '$push': {'contactRequests':contactData }}
+        return User.findOneAndUpdate(condition,update, {new : true})
+}
+
 
 module.exports = {
     checkIfEmailExist,
@@ -133,5 +145,6 @@ module.exports = {
     userEditProfile,
     userDetails,
     authenticateUserAccesstoken,
-    verifyCode
+    verifyCode,
+    sendContactReq
 }

@@ -2,6 +2,9 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const responseHandler = require('../../lib/responseHandler');
 const userDoa = require('./userDao');
+var ua = require('universal-analytics');
+ //Google Analytics
+ var visitor = ua('UA-125945051-2');
 
 
 
@@ -25,6 +28,15 @@ exports.userSignup = (request, response) => {
 
 
 exports.userLogin = (request, response) => {
+    visitor.pageview("/api/user/login", function (err, data) {
+        if(err) {
+          throw new Error(err)
+        }
+        else {
+          console.log(data)
+          console.log("Request send to google")
+        }
+      }); 
     let {email, password} = request.body
     userDoa.userLogin({email, password}).then((result) => {
         responseHandler.sendSuccess(response, result)
@@ -76,8 +88,8 @@ exports.verifyCode = (request, response) => {
 exports.sendContactReq =  (request, response) => {
     let {senderId, receiverId} = request.body;
 
-       userDoa.sendContactReq({email, verificationCode}).then((result) => {
-             responseHandler.sendSuccess(response, {responceMessage: "You have successfully verified your account", accessToken: result.accessToken, userId: result.user._id, email: result.user.email})
+       userDoa.sendContactReq({senderId, receiverId}).then((result) => {
+             responseHandler.sendSuccess(response, {responceMessage: "Request send successfully !", receiver: result})
        }).catch((error) => {    
         responseHandler.sendError(response, error)
     })

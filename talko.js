@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 // const ViModel = require('./api/model');
 var PORT = process.env.PORT || 5000
 const socketServer = require('./lib/socketIO/index')
+
 // const Content = mongoose.model('Content');
 console.log("Talko app starting on",process.env.NODE_ENV, 'environment')
 console.log()
@@ -39,6 +40,9 @@ mongoose.connect("mongodb://localhost:27017/talkoDB", {useMongoClient: true}).th
 /**
  * MongoDB Config End
  */
+
+
+
 
 
 

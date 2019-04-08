@@ -20,7 +20,7 @@ var UserSchema = new Schema({
     _id: false,
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
     requestedAt: {type: Number},
-    requestMessage: {type: String, default: "Hey ! Would like to chat with me on Talko "},
+    requestMessage: {type: String, default: "Hey ! Would you like to chat with me on Talko "},
     isAccepted: {type: Boolean, default: false}
   }],
   age: { type: Number },
