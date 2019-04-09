@@ -18,7 +18,7 @@ var UserSchema = new Schema({
   ], 
   contactRequests: [{
     _id: false,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
+    sender: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
     requestedAt: {type: Number},
     requestMessage: {type: String, default: "Hey ! Would you like to chat with me on Talko "},
     isAccepted: {type: Boolean, default: false}
@@ -33,7 +33,6 @@ var UserSchema = new Schema({
     blockedAt: {type: Number}
   }
   ],
-  accessToken : {type:  Array, default: []}
 },{
   versionKey:false,
   timestamps:true

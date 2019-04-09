@@ -3,6 +3,9 @@ const appUtils = require('../../lib/appUtils'),
 _ = require('lodash'),
 userDao = require('./userDao'),
 customException = require('../../lib/customException'),
+Exception = require('../../lib/model/Exception'),
+jwtHandler  =require('../../lib/jwt'),
+
 constant = require('../../lib/constant');
 const {uploadForUser} = require('../../lib/multer')
 
@@ -61,16 +64,38 @@ next();
 }
 
 var authenticateUserAccesstoken = (request, response,next) => {
-let {accessToken} = request.query
-userDao.authenticateUserAccesstoken({accessToken}).then((result) => {
- if(result) {
-     next()
- }
-
-else {
-  return next(customException.customErrorException(constant.MESSAGES.ACCESS_FORBIDDEN, null));
- }
-})
+  let accessToken = request.get('Authorization')
+			
+  if(accessToken) {
+    jwtHandler.verifyAccessToken(accessToken).then((result) => {
+        request.user =  result.payload
+        next()
+       
+    })
+    .catch((err) => {
+                switch(err.message) {
+            case "jwt expired":
+            response.status(401)
+            return next(new Exception(2, constant.MESSAGES.UNAUTHORIZED_ACCESS));
+      
+            case "invalid token": 
+            response.status(403)
+            return	next(new Exception(3, constant.MESSAGES.ACCESS_FORBIDDEN));
+          
+          case "invalid signature": 
+          response.status(403)
+            return	next(new Exception(3, constant.MESSAGES.ACCESS_FORBIDDEN));
+      
+          default:
+          response.status(400)
+             return	next( new Exception(4, constant.MESSAGES.SOMETHING_WENT_WRONG));
+           }
+    })
+  }
+  else {
+    response.status(401)
+    return next( new Exception(1, "No Access Token Provided !") );
+  }
 
 }
 

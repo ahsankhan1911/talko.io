@@ -1,6 +1,6 @@
 const User = require('./userModel'),
     Exception = require('../../lib/model/Exception'),
-    randomstring = require('randomstring');
+    jwtHandler  =require('../../lib/jwt');
 const emailHandler = require('../../lib/email');
 const appUtils = require('../../lib/appUtils')
 
@@ -34,12 +34,15 @@ var userLogin = (userData) => {
                         if (userOnPass.isVerified === true) {
                             //Adding new accessToken 
                             let regex3 = new RegExp(userOnPass.email.replace(userOnPass.email, `^${userOnPass.email}$`), 'i')
+                            let payload = {
+                                _id: userOnPass._id,
+                                email: userOnPass.email,
+                          }
 
-                            let accessToken = randomstring.generate()
-                            return User.findOneAndUpdate({ email: { '$regex': regex3 }, password: userData.password }, { '$push': { accessToken: accessToken } }, { new: true })
-                                .then((loggedInUser) => {
-                                    return { responseMessage: "Login successfully !", userId: loggedInUser._id, accessToken: accessToken, isVerified: loggedInUser.isVerified, name: loggedInUser.name, email: loggedInUser.email }
-                                })
+                            return jwtHandler.generateAccessToken(payload).then((result) => { 
+                                    return { responseMessage: "Login successfully !", userId: userOnPass._id, accessToken: result, isVerified: userOnPass.isVerified, name: userOnPass.name, email: userOnPass.email }
+                             })
+                       
 
                          }
 
@@ -60,6 +63,10 @@ var userLogin = (userData) => {
     })
 }
 
+
+
+
+
 var createUser = (userData) => {
     return checkIfEmailExist(userData).then((result) => {
         if (result) {
@@ -68,7 +75,7 @@ var createUser = (userData) => {
         let verifcationCode = appUtils.getRandomOtp(4)
         userData.accountVerificationCode =  verifcationCode
         return User.create(userData).then((user) => {
-            return emailHandler.sendVerificationEmail(user.email, "verification@tracilence.com",verifcationCode ).then((info) => {
+            return emailHandler.sendVerificationEmail(user.email, "verification@talko.io",verifcationCode ).then((info) => {
                 console.log("Message sent to ", info.accepted[0])
                  return user
             })
@@ -112,12 +119,15 @@ var verifyCode = (userData) =>  {
     let query = {email: userData.email, accountVerificationCode: userData.verificationCode}
      return User.findOne(query).then((user) => {
         if(user) {
-            let accessToken = randomstring.generate()
-            let update = {"$set": { isVerified: true}, "$unset": {accountVerificationCode: ''}, "$push": {accessToken: accessToken}}
-             return User.findOneAndUpdate(query, update).then((verifiedUser) => {
-                                        
-                   return {user: verifiedUser, accessToken: accessToken}
-             })
+            return jwtHandler.generateAccessToken(payload).then((result) => { 
+                let update = {"$set": { isVerified: true}, "$unset": {accountVerificationCode: ''}}
+                return User.findOneAndUpdate(query, update).then((verifiedUser) => {
+                                           
+                      return {user: verifiedUser, accessToken: accessToken}
+                })
+
+            })
+           
         }
         else {
             throw new Exception(1, "No user found on this code")
@@ -125,16 +135,62 @@ var verifyCode = (userData) =>  {
      })
 }
 
+var checkIfContactReqExist = (senderId) => {
+    let query = {'contactRequests.sender': senderId}
+        return  User.findOne(query)
+}
+
 var sendContactReq = (userData) => {
     let condition = {_id: userData.receiverId }
      var contactData = {
-        userId : appUtils._convertToObjectIds( userData.senderId),
+        sender : appUtils._convertToObjectIds( userData.senderId),
         requestedAt : Date.now(),
         requestMessage : userData.requestMessage
 
      }
     let update = { '$push': {'contactRequests':contactData }}
-        return User.findOneAndUpdate(condition,update, {new : true})
+     return checkIfContactReqExist(userData.senderId).then((result) => {
+         if(result) 
+            throw new Exception(1, "You have already send a request to this user")
+         else 
+            return User.findOneAndUpdate(condition,update, {new: true , fields: {_id:1 , name:1, email:1, contactRequests:1}})
+     })
+        
+}
+
+var cancelContactReq = (userData) => {
+    let query = {_id: appUtils._convertToObjectIds(userData.receiverId)}
+    let update = { '$pull': {contactRequests: {sender:userData.senderId} } }
+
+     return User.findOneAndUpdate(query, update, {new: true,fields: {_id:1 , name:1, email:1, contactRequests:1} })
+}
+
+var acceptContactReq = (userData) => {
+ let query = {_id: appUtils._convertToObjectIds(userData.receiverId), }
+ let receiverData = {
+    userId: userData.receiverId,
+    addedAt: Date.now()
+ }
+
+ let update = { '$push': {contacts:receiverData } }
+
+ return User.findOneAndUpdate(query, update, {new : true}).then((result) => {
+     let query =  { _id: appUtils._convertToObjectIds( userData.senderId) }
+
+     let senderData = {
+        userId: userData.senderId,
+        addedAt: Date.now()
+     }
+     let update = { '$push': { contacts: senderData}}
+          
+         return User.findOneAndUpdate(query, update, {fields : { _id:1, name: 1, email:1}})
+ })
+}
+
+var deleteContactReq = (userData) => {
+    let query = { _id: appUtils._convertToObjectIds(userData.receiverId)}
+    let update = { '$pull': {contactRequests: { sender: userData.senderId}}}
+   return User.findOneAndUpdate(query, update)
 }
 
 
@@ -146,5 +202,8 @@ module.exports = {
     userDetails,
     authenticateUserAccesstoken,
     verifyCode,
-    sendContactReq
+    sendContactReq,
+    cancelContactReq,
+    acceptContactReq,
+    deleteContactReq
 }

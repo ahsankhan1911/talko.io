@@ -76,7 +76,6 @@ exports.userEditProfile = (request, response) => {
 exports.verifyCode = (request, response) => {
     let {email, verificationCode} = request.body;
     verificationCode = Number(verificationCode)
-    console.log(verificationCode)
 
        userDoa.verifyCode({email, verificationCode}).then((result) => {
              responseHandler.sendSuccess(response, {responceMessage: "You have successfully verified your account", accessToken: result.accessToken, userId: result.user._id, email: result.user.email})
@@ -86,11 +85,52 @@ exports.verifyCode = (request, response) => {
 }
 
 exports.sendContactReq =  (request, response) => {
-    let {senderId, receiverId} = request.body;
+    // console.log(request.user)
+    // let user = JSON.parse(request.user)
+    let senderId = request.user._id
+    let {receiverId,requestMessage} = request.body;
 
-       userDoa.sendContactReq({senderId, receiverId}).then((result) => {
+       userDoa.sendContactReq({senderId, receiverId,requestMessage}).then((result) => {
              responseHandler.sendSuccess(response, {responceMessage: "Request send successfully !", receiver: result})
        }).catch((error) => {    
         responseHandler.sendError(response, error)
     })
+}
+
+exports.cancelContactReq = (request, response) => {
+    let senderId = request.user._id
+
+    let {receiverId} = request.body;
+
+    userDoa.cancelContactReq({senderId, receiverId}).then((result) => {
+          responseHandler.sendSuccess(response, {responceMessage: "Request cancelled successfully !", receiver: result})
+    }).catch((error) => {    
+     responseHandler.sendError(response, error)
+ })
+
+}
+
+exports.acceptContactReq = (request, response) => {
+  
+    let receiverId = request.user._id
+    let {senderId} = request.body;
+
+    userDoa.acceptContactReq({senderId, receiverId}).then((result) => {
+          responseHandler.sendSuccess(response, {responceMessage:`${result.name} is now in your contact list`, acceptedUser: result})
+    }).catch((error) => {    
+     responseHandler.sendError(response, error)
+ })
+
+}
+
+exports.deleteContactReq = (request, response) => {
+    let receiverId = request.user._id
+
+    let {senderId}= request.body
+    userDoa.deleteContactReq({senderId, receiverId}).then((result) => {
+        responseHandler.sendSuccess(response, {responceMessage:`You have deleted ${result.name} contact request`, acceptedUser: result})
+  }).catch((error) => {    
+   responseHandler.sendError(response, error)
+})
+
 }

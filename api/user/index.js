@@ -12,5 +12,9 @@ userRouter.route('/details/:_id').get([userMiddleware.authenticateUserAccesstoke
 userRouter.route('/edit-profile/:_id').post([userMiddleware.authenticateUserAccesstoken, userMiddleware.uploadUserProfilePicture,userMiddleware.validateProfileEdit], controller.userEditProfile)
 userRouter.route('/verify-code').post(controller.verifyCode)
 userRouter.route('/send-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.sendContactReq)
+userRouter.route('/cancel-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.cancelContactReq)
+userRouter.route('/accept-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.acceptContactReq)
+userRouter.route('/delete-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.deleteContactReq)
+
 
 module.exports = userRouter
