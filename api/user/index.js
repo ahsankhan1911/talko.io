@@ -15,6 +15,8 @@ userRouter.route('/send-contact-request').post([userMiddleware.authenticateUserA
 userRouter.route('/cancel-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.cancelContactReq)
 userRouter.route('/accept-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.acceptContactReq)
 userRouter.route('/delete-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.deleteContactReq)
+userRouter.route('/get-contact-request').get([userMiddleware.authenticateUserAccesstoken], controller.getContactReq)
+userRouter.route('/search').get([userMiddleware.authenticateUserAccesstoken], controller.searchUsers)
 
 
 module.exports = userRouter

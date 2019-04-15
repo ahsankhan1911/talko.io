@@ -111,6 +111,17 @@ app.get('/', (req, res) => {
   res.send("WELCOME TO TALKO APP")
 })
 
+//404
+app.use( (req, res) => {
+  res.status(404).json(
+    {
+      "errorCode": 1,
+      "errorMessage": "404 Not Found",
+      "statusCode": 404
+  });
+});
+
+
 app.listen(PORT,  () => {
   console.log('Running server on ' + PORT);
 });

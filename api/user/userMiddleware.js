@@ -84,11 +84,11 @@ var authenticateUserAccesstoken = (request, response,next) => {
           
           case "invalid signature": 
           response.status(403)
-            return	next(new Exception(3, constant.MESSAGES.ACCESS_FORBIDDEN));
+            return	next(new Exception(4, constant.MESSAGES.ACCESS_FORBIDDEN));
       
           default:
           response.status(400)
-             return	next( new Exception(4, constant.MESSAGES.SOMETHING_WENT_WRONG));
+             return	next( new Exception(5, constant.MESSAGES.SOMETHING_WENT_WRONG));
            }
     })
   }

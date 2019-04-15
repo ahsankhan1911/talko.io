@@ -91,7 +91,7 @@ exports.sendContactReq =  (request, response) => {
     let {receiverId,requestMessage} = request.body;
 
        userDoa.sendContactReq({senderId, receiverId,requestMessage}).then((result) => {
-             responseHandler.sendSuccess(response, {responceMessage: "Request send successfully !", receiver: result})
+             responseHandler.sendSuccess(response, {responceMessage: `Request send successfully to ${result.name} !`, receiver: result})
        }).catch((error) => {    
         responseHandler.sendError(response, error)
     })
@@ -128,9 +128,29 @@ exports.deleteContactReq = (request, response) => {
 
     let {senderId}= request.body
     userDoa.deleteContactReq({senderId, receiverId}).then((result) => {
-        responseHandler.sendSuccess(response, {responceMessage:`You have deleted ${result.name} contact request`, acceptedUser: result})
+        responseHandler.sendSuccess(response, {responceMessage: "Request deleted successfully !"})
   }).catch((error) => {    
    responseHandler.sendError(response, error)
 })
 
+}
+
+exports.searchUsers = (request, response) => {
+     let {key} = request.query
+     let _id = request.user._id
+
+     userDoa.searchUsers({key, _id}).then((result) => {
+          responseHandler.sendSuccess(response, result)
+     })
+}
+
+exports.getContactReq = (request, response) => {
+    let _id = request.user._id
+
+    userDoa.getContactReq({_id}).then((result) => {
+         responseHandler.sendSuccess(response, result)
+    })
+    .catch((error) => {
+        responseHandler.sendError(response, error)
+    })
 }

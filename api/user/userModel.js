@@ -12,13 +12,13 @@ var UserSchema = new Schema({
   profilePicture: { type: String ,default:  '/images/default_user.jpeg'},
   contacts : [{
     _id: false,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    userId: {type: Schema.Types.ObjectId, ref: 'User'},
     addedAt: {type :Number}
   }
   ], 
   contactRequests: [{
     _id: false,
-    sender: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
+    sender: {type: Schema.Types.ObjectId, ref: 'User'}, 
     requestedAt: {type: Number},
     requestMessage: {type: String, default: "Hey ! Would you like to chat with me on Talko "},
     isAccepted: {type: Boolean, default: false}
@@ -29,7 +29,7 @@ var UserSchema = new Schema({
   accountVerificationCode: {type: Number, default: null},
   blockedUsers: [{
     _id:false,
-    userId:{type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
+    userId:{type: Schema.Types.ObjectId, ref: 'User'}, 
     blockedAt: {type: Number}
   }
   ],
