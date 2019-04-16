@@ -13,7 +13,7 @@ exports.userSignup = (request, response) => {
 
     userDoa.createUser({ name, email, password, gender }).then((result) => {
         responseHandler.sendSuccess(response, {
-            responceMessage: "You have successfully created an account. Please check your email for verification.",
+            message: "You have successfully created an account. Please check your email for verification.",
             userId: result._id,
             isVerified: result.isVerified,
             email: result.email
@@ -28,12 +28,12 @@ exports.userSignup = (request, response) => {
 
 
 exports.userLogin = (request, response) => {
+    console.log("HELLOOOOOOOOOOOO ")
     visitor.pageview("/api/user/login", function (err, data) {
         if(err) {
           throw new Error(err)
         }
         else {
-          console.log(data)
           console.log("Request send to google")
         }
       }); 
@@ -42,6 +42,7 @@ exports.userLogin = (request, response) => {
         responseHandler.sendSuccess(response, result)
 
     }).catch((error) => {
+        console.log(error)
         responseHandler.sendError(response, error)
     })
        
@@ -66,7 +67,7 @@ exports.userEditProfile = (request, response) => {
      var profilePicture = `/images/users/${file.filename}` 
 
     userDoa.userEditProfile({_id, name,profilePicture,age,phone}).then((result) => {
-        responseHandler.sendSuccess(response, {responceMessage: "user updated successfully !", user : result})
+        responseHandler.sendSuccess(response, {message: "user updated successfully !", user : result})
     }).catch((error) => {
         responseHandler.sendError(response, error)
     })
@@ -78,7 +79,7 @@ exports.verifyCode = (request, response) => {
     verificationCode = Number(verificationCode)
 
        userDoa.verifyCode({email, verificationCode}).then((result) => {
-             responseHandler.sendSuccess(response, {responceMessage: "You have successfully verified your account", accessToken: result.accessToken, userId: result.user._id, email: result.user.email})
+             responseHandler.sendSuccess(response, {message: "You have successfully verified your account", accessToken: result.accessToken, userId: result.user._id, email: result.user.email})
        }).catch((error) => {    
         responseHandler.sendError(response, error)
     })
@@ -91,7 +92,7 @@ exports.sendContactReq =  (request, response) => {
     let {receiverId,requestMessage} = request.body;
 
        userDoa.sendContactReq({senderId, receiverId,requestMessage}).then((result) => {
-             responseHandler.sendSuccess(response, {responceMessage: `Request send successfully to ${result.name} !`, receiver: result})
+             responseHandler.sendSuccess(response, {message: `Request send successfully to ${result.name} !`, receiver: result})
        }).catch((error) => {    
         responseHandler.sendError(response, error)
     })
@@ -103,7 +104,7 @@ exports.cancelContactReq = (request, response) => {
     let {receiverId} = request.body;
 
     userDoa.cancelContactReq({senderId, receiverId}).then((result) => {
-          responseHandler.sendSuccess(response, {responceMessage: "Request cancelled successfully !", receiver: result})
+          responseHandler.sendSuccess(response, {message: "Request cancelled successfully !", receiver: result})
     }).catch((error) => {    
      responseHandler.sendError(response, error)
  })
@@ -116,7 +117,7 @@ exports.acceptContactReq = (request, response) => {
     let {senderId} = request.body;
 
     userDoa.acceptContactReq({senderId, receiverId}).then((result) => {
-          responseHandler.sendSuccess(response, {responceMessage:`${result.name} is now in your contact list`, acceptedUser: result})
+          responseHandler.sendSuccess(response, {message:`${result.name} is now in your contact list`, acceptedUser: result})
     }).catch((error) => {    
      responseHandler.sendError(response, error)
  })
@@ -128,7 +129,7 @@ exports.deleteContactReq = (request, response) => {
 
     let {senderId}= request.body
     userDoa.deleteContactReq({senderId, receiverId}).then((result) => {
-        responseHandler.sendSuccess(response, {responceMessage: "Request deleted successfully !"})
+        responseHandler.sendSuccess(response, {message: "Request deleted successfully !"})
   }).catch((error) => {    
    responseHandler.sendError(response, error)
 })

@@ -115,9 +115,10 @@ app.get('/', (req, res) => {
 app.use( (req, res) => {
   res.status(404).json(
     {
-      "errorCode": 1,
-      "errorMessage": "404 Not Found",
-      "statusCode": 404
+      "statusCode": 404,
+      "success": false,
+      "message": "404 Not Found",
+    
   });
 });
 

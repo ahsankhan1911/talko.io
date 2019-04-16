@@ -3,6 +3,7 @@ const User = require('./userModel'),
     jwtHandler = require('../../lib/jwt');
 const emailHandler = require('../../lib/email');
 const appUtils = require('../../lib/appUtils')
+const chatDao = require('../chat/chatDoa')
 
 
 var checkIfEmailExist = (userData) => {
@@ -28,7 +29,7 @@ var userLogin = (userData) => {
                     if (userOnPass) {
 
                         if (userOnPass.isActive === false) {
-                            throw new Exception(3, "You have been blocked by Admin")
+                            throw new Exception(3, "You have been blocked by Admin", null , 403)
                         }
 
                         if (userOnPass.isVerified === true) {
@@ -40,17 +41,17 @@ var userLogin = (userData) => {
                             }
 
                             return jwtHandler.generateAccessToken(payload).then((result) => {
-                                return { responseMessage: "Login successfully !", userId: userOnPass._id, accessToken: result, isVerified: userOnPass.isVerified, name: userOnPass.name, email: userOnPass.email }
+                                return { message: "Login successfully !", userId: userOnPass._id, accessToken: result, isVerified: userOnPass.isVerified, name: userOnPass.name, email: userOnPass.email }
                             })
 
 
                         }
 
-                        return { responseMessage: "You have not verified your account yet.", userId: userOnPass._id, isVerified: false }
+                        return { message: "You have not verified your account yet.", userId: userOnPass._id, isVerified: false }
 
                     }
                     else {
-                        throw new Exception(2, "Password does not match");
+                        throw new Exception(2, "Password does not match",null, 401);
                     }
                 })
         }
@@ -188,7 +189,18 @@ var acceptContactReq = (userData) => {
         }
         let update = { '$push': { contacts: receiverData } }
 
-        return User.findOneAndUpdate(query, update, { fields: { _id: 1, name: 1, email: 1 } })
+        return User.findOneAndUpdate(query, update, { fields: { _id: 1, name: 1, email: 1 } }).then((result) => {
+
+            //Creating new chat collection
+             let chatData = {
+                chatType: 'private',
+                createdBy:userData.senderId,
+                acceptedBy:userData.receiverId
+             }
+             chatDao.createChat(chatData)
+             return result
+               
+        })
     })
 }
 
@@ -235,7 +247,7 @@ var getContactReq = (userData) => {
 
     return  User.aggregate(aggPipe).then((result) => {
             let select= {_id:1, name:1, email:1, profilePicture:1}
-          return User.populate(result[0].contactRequests, {path: 'contactRequests.sender', select: select})
+          return User.populate(result[0].contactRequests, {path: 'sender', select: select})
     })
 }   
 

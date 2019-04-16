@@ -102,7 +102,7 @@ var authenticateUserAccesstoken = (request, response,next) => {
 
 var validationError = function(errors, next){
 if(errors && errors.length > 0){
-  return next(customException.customErrorException(constant.MESSAGES.VALIDATION_ERROR, errors));
+  return next(customException.customErrorException(constant.MESSAGES.VALIDATION_ERROR, errors, 400));
 }
 next();
 }
