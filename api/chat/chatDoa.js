@@ -22,7 +22,7 @@ var chatMessage = (chatData) => {
 
     }
     let update = {'$push': {messages: messageData}}
-    return Chat.findOneAndUpdate(query, update)
+     Chat.findOneAndUpdate(query, update).exec()
 }
 
 
