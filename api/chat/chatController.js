@@ -7,3 +7,7 @@ exports.createChat = (request, response) => {
     let _id = request.user._id
           chatDoa.createChat({_id})
 }
+
+exports.getChats = (request, response) => {
+    response.send("test")
+}

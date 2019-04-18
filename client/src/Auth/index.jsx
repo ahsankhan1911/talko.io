@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import { isValidEmail, isValidPassword } from './utills'
-import service from './services'
+import '../App.css';
+import { isValidEmail, isValidPassword, setCookie } from '../utills'
+import service from '../services'
 // import io from 'socket.io-client';
 // const socket = io.connect('http://localhost:8000/5cb5dd88178d6adb7b25e026');
 
@@ -136,21 +136,15 @@ class App extends Component {
 
   handleBtn(data, type) {
     if (this.validateData(data, type)) {
-      console.log("DATA is valid")
       let errors = document.getElementsByClassName('error')
       for (var i = 0; i < errors.length; i++) {
         errors[i].innerText = ""
       }
       if (type === 'login') {
         service.loginAPI(data)
-
-          .then((result) => {
-            console.log(result)
-          })
-          .catch((error) => {
-            console.error(error)
-
-          })
+      }
+      if(type === 'signup') {
+        service.signupAPI(data)
       }
     }
   }

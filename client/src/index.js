@@ -1,12 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Auth from './Auth';
 import * as serviceWorker from './serviceWorker';
+import {getCookie, setCookie} from './utills'
+import service from './services' 
+import configureStore from './store';
+import { Provider } from 'react-redux'
 
-ReactDOM.render(<App />, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+async function authenticateUser (){
+      let access_token = await getCookie('access_token')
+
+      if(access_token) {
+          
+      }
+}
+
+authenticateUser()
+ReactDOM.render(
+    <Provider store={configureStore()}>
+  <Auth /> 
+   </Provider>
+    
+    , document.getElementById('root'));
+
+
 serviceWorker.unregister();
