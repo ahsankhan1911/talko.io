@@ -4,6 +4,7 @@ const User = require('./userModel'),
 const emailHandler = require('../../lib/email');
 const appUtils = require('../../lib/appUtils')
 const chatDao = require('../chat/chatDoa')
+const bcryptHandler = require('../../lib/bcrypt')
 
 
 var checkIfEmailExist = (userData) => {
@@ -69,10 +70,11 @@ var userLogin = (userData) => {
 
 
 var createUser = (userData) => {
-    return checkIfEmailExist(userData).then((result) => {
+    return checkIfEmailExist(userData).then( async (result) => {
         if (result) {
             throw new Exception(1, "User already exist with this email");
         }
+        userData.password = await bcryptHandler.encryptPassword(userData.password)
         let verifcationCode = appUtils.getRandomOtp(4)
         userData.accountVerificationCode = verifcationCode
         return User.create(userData).then((user) => {
