@@ -7,12 +7,10 @@ import service from '../services'
 
 
 
-class App extends Component {
+class Main extends Component {
   
-
-
-
   render() {
+    console.log("Main rendered")
     return (
       <div className="App">
           Welcome !
@@ -21,4 +19,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Main;

@@ -2,7 +2,6 @@ import axios from 'axios'
 import {setCookie} from './utills'
 
 const URL = process.env.REACT_APP_API_URL
-console.log(process.env)
 //Headers
 const urlEncoded = {"Content-Type": "application/x-www-form-urlencoded"}
 const formData = { "content-type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"}
@@ -20,6 +19,7 @@ class Service {
         else {
           let access_token = result.data.data.accessToken
           setCookie('access_token', access_token, '2')
+          window.location.reload()
         }
       })
       .catch((error) => {
@@ -27,6 +27,12 @@ class Service {
         alert("Please check your Internet Connection !")
 
       })
+    }
+
+    getChatsAPI (token) {
+      console.log(token)
+   
+      return axios.get(`${URL}chat/get`, {headers: {'Authorization': token}})
     }
 }
 

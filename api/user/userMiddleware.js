@@ -75,25 +75,25 @@ var authenticateUserAccesstoken = (request, response,next) => {
     .catch((err) => {
                 switch(err.message) {
             case "jwt expired":
-            response.status(401)
-            return next(new Exception(2, constant.MESSAGES.UNAUTHORIZED_ACCESS));
+            // response.status(401)
+            return next(new Exception(2, constant.MESSAGES.UNAUTHORIZED_ACCESS, null, 401));
       
             case "invalid token": 
-            response.status(403)
-            return	next(new Exception(3, constant.MESSAGES.ACCESS_FORBIDDEN));
+            // response.status(403)
+            return	next(new Exception(3, constant.MESSAGES.ACCESS_FORBIDDEN, null, 403));
           
           case "invalid signature": 
-          response.status(403)
-            return	next(new Exception(4, constant.MESSAGES.ACCESS_FORBIDDEN));
+          // response.status(403)
+            return	next(new Exception(4, constant.MESSAGES.ACCESS_FORBIDDEN, null, 403));
       
           default:
-          response.status(400)
-             return	next( new Exception(5, constant.MESSAGES.SOMETHING_WENT_WRONG));
+          // response.status(400)
+             return	next( new Exception(5, constant.MESSAGES.SOMETHING_WENT_WRONG, null, 400));
            }
     })
   }
   else {
-    response.status(401)
+    // response.status(401)
     return next( new Exception(1, "No Access Token Provided !") );
   }
 

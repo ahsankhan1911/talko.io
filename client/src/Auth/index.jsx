@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../App.css';
 import { isValidEmail, isValidPassword, setCookie } from '../utills'
 import service from '../services'
+import Login from './components/Login'
+import Signup from './components/Signup'
 // import io from 'socket.io-client';
 // const socket = io.connect('http://localhost:8000/5cb5dd88178d6adb7b25e026');
 
@@ -11,17 +13,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginData: {
-        email: '',
-        password: ''
-      },
-      signupData: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      }
-
+      // loginData: {
+      //   email: '',
+      //   password: ''
+      // },
+      // signupData: {
+      //   name: '',
+      //   email: '',
+      //   password: '',
+      //   confirmPassword: ''
+      // }
+       loginDisplay: 'block',
+       signupDisplay: 'none'
     }
 
   }
@@ -56,11 +59,13 @@ class App extends Component {
   }
 
   handleSignupClick = () => {
-    document.getElementById('login').style.display = "none"
-    document.getElementById('signup').style.display = "block"
+   this.setState({
+     loginDisplay:'none',
+     signupDisplay: 'block' 
+   })
   }
 
-  validateData = (data, type) => {
+  validateData (data, type) {
     var isValid = true
     let errors = document.getElementsByClassName('error')
     for (var i = 0; i < errors.length; i++) {
@@ -134,7 +139,8 @@ class App extends Component {
   }
 
 
-  handleBtn(data, type) {
+  handleBtn = (data, type) =>  { 
+    
     if (this.validateData(data, type)) {
       let errors = document.getElementsByClassName('error')
       for (var i = 0; i < errors.length; i++) {
@@ -157,24 +163,11 @@ class App extends Component {
       <div className="App">
         <div>
           {/* <h2>Talko.io</h2> */}
+          <Login  handleBtn = { this.handleBtn } display={this.state.loginDisplay} handleSignupClick= { this.handleSignupClick}/>
         </div>
-        <div id="login">
-          <input type="text" name="email" onChange={this.handleChangeLogin} />   <br /> <span id="login-error-email" className="error"> </span>  <br />
-          <input type="password" name="password" onChange={this.handleChangeLogin} />   <br /> <span id="login-error-password" className="error"></span> <br />
-
-          <button onClick={() => this.handleBtn(this.state.loginData, 'login')}>login</button>
-          <p>Dont have an account ? <a href="javascript:void(0)" onClick={this.handleSignupClick}>Sign up</a></p>
-        </div>
-
-        <div id="signup" style={{ display: "none" }}>
-
-          <input type="text" placeholder="name" name="name" onChange={this.handleChangeSignup} /> <br /> <span id="signup-error-name" className="error"></span>  <br />
-          <input type="text" placeholder="email" name="email" onChange={this.handleChangeSignup} />  <br /> <span id="signup-error-email" className="error"></span>  <br />
-          <input type="text" placeholder="password" name="password" onChange={this.handleChangeSignup} />  <br /> <span id="signup-error-password" className="error"></span> <br />
-          <input type="text" placeholder="confirm password" name="confirmPassword" onChange={this.handleChangeSignup} />  <br />  <span id="signup-error-confirmPassword" className="error"></span> <br />
-
-          <button onClick={() => this.handleBtn(this.state.signupData, 'signup')}>signup</button>
-        </div>
+      
+        <Signup  handleBtn = { this.handleBtn } display={this.state.signupDisplay}/>
+       
 
       </div>
     );
