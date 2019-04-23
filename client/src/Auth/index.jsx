@@ -13,16 +13,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // loginData: {
-      //   email: '',
-      //   password: ''
-      // },
-      // signupData: {
-      //   name: '',
-      //   email: '',
-      //   password: '',
-      //   confirmPassword: ''
-      // }
        loginDisplay: 'block',
        signupDisplay: 'none'
     }
@@ -32,31 +22,6 @@ class App extends Component {
   componentDidMount() {
   }
 
-  handleChangeLogin = (e) => {
-    let data = this.state.loginData
-
-    data[e.target.name] = e.target.value
-
-
-    this.setState({
-      loginData: data
-    }, () => {
-      console.log(this.state.loginData)
-    })
-  }
-
-  handleChangeSignup = (e) => {
-    let data = this.state.signupData
-
-    data[e.target.name] = e.target.value
-
-
-    this.setState({
-      signupData: data
-    }, () => {
-      console.log(this.state.signupData)
-    })
-  }
 
   handleSignupClick = () => {
    this.setState({
