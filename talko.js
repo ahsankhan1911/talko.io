@@ -14,7 +14,7 @@ var app = express();
 var mongoose = require('mongoose');
 // const ViModel = require('./api/model');
 var PORT = process.env.PORT || 5000
-const socketServer = require('./lib/socketIO/index')
+const {io, server} = require('./lib/socketIO/index')
 
 // const Content = mongoose.model('Content');
 console.log("Talko app starting on",process.env.NODE_ENV, 'environment')
@@ -49,12 +49,12 @@ mongoose.connect("mongodb://localhost:27017/talkoDB", {useMongoClient: true}).th
 /**
  * Socket.io 
  */
-socketServer.server.listen(8000, () => {
+server.listen(8000, () => {
 console.log("Socket connected")
 
 })
 
-socketServer.io.on('connection', (socket) => {
+io.on('connection', (socket) => {
   
   console.log("CONNECTION ESTABLISHEDD" , socket.id)
 
@@ -64,6 +64,22 @@ socketServer.io.on('connection', (socket) => {
   })
 
 })
+
+// let namespace = io.of('/test')
+// namespace.on('connection', () => {
+//   console.log("CONNECTED")
+// })
+
+let namespace2 = io.of('/5cb5da4cf59162d209ecbcea')
+
+namespace2.on('connection', (socket) => {
+  console.log("CONNECTED")
+
+  socket.on('chatMessage', (data) => {
+    console.log("Message came >> ", data)
+  })
+})
+
 /**
  * Socket.io 
  */

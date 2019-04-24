@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+#chats {
+  list-style-type: none;
+}

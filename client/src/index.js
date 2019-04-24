@@ -22,7 +22,7 @@ async function authenticateUser() {
             else {
                 ReactDOM.render(
                     <Provider store={configureStore()}>
-                        <Main/>
+                        <Main  chatsData = { response.data.data}/>
                     </Provider>
                 
                     , document.getElementById('root')

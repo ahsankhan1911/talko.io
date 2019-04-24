@@ -13,14 +13,15 @@ var ChatSchema = new Schema({
       type: Object,
       sentAt: { type: Number },
       sentBy: { type: Schema.Types.ObjectId, ref: 'User' },
-      receivedBy: [
-        {
-          type: Object,
-          userId: Schema.Types.ObjectId, ref: 'User',
-          _id: false,
-          receivedAt: { type: Number },
-        }
-      ],
+      // receivedBy: [
+      //   {
+      //     type: Object,
+      //     userId: Schema.Types.ObjectId, ref: 'User',
+      //     _id: false,
+      //     receivedAt: { type: Number },
+      //   }
+      // ],
+      messageType: {type: String, enum:['text', 'image', 'audio', 'video']},
       message: { type: String }
     }
   ]

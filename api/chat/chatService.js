@@ -10,6 +10,8 @@ var createSocketNameSpace = (chatId) => {
      })
 
      namespace.on('chatMessage', (data) => {
+
+   console.log('MESAGE CAME >> ', data)
            chatDao.chatMessage(data)
          //  namespace.emit('chatMessage', data)
      })
