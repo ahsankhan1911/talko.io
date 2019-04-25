@@ -14,10 +14,14 @@ var app = express();
 var mongoose = require('mongoose');
 // const ViModel = require('./api/model');
 var PORT = process.env.PORT || 5000
-const {io, server} = require('./lib/socketIO/index')
+const { io, server } = require('./lib/socketIO/index')
+
+const chatDao = require('./api/chat/chatDoa')
+const Chat = require('./api/chat/chatModel')
+var socketNsps = new Map()
 
 // const Content = mongoose.model('Content');
-console.log("Talko app starting on",process.env.NODE_ENV, 'environment')
+console.log("Talko app starting on", process.env.NODE_ENV, 'environment')
 console.log()
 
 /**
@@ -26,16 +30,16 @@ console.log()
 mongoose.Promise = require('bluebird')
 mongoose.set('debug', true);
 
-mongoose.connect("mongodb://localhost:27017/talkoDB", {useMongoClient: true}).then(( result) => {
+mongoose.connect("mongodb://localhost:27017/talkoDB", { useMongoClient: true }).then((result) => {
 
-      console.log("Connected To MongoDB on :" ,{
-          Database: result.name,
-          Port : result.port,
-          Host: result.host
-      })
-      return;
+  console.log("Connected To MongoDB on :", {
+    Database: result.name,
+    Port: result.port,
+    Host: result.host
+  })
+  return;
 }).catch((error) => {
-    throw new Error(error.message)
+  throw new Error(error.message)
 })
 /**
  * MongoDB Config End
@@ -50,41 +54,82 @@ mongoose.connect("mongodb://localhost:27017/talkoDB", {useMongoClient: true}).th
  * Socket.io 
  */
 server.listen(8000, () => {
-console.log("Socket connected")
+  console.log("Socket connected")
 
 })
 
 io.on('connection', (socket) => {
-  
-  console.log("CONNECTION ESTABLISHEDD" , socket.id)
 
-  socket.on('test', (message) => {
-
-    console.log("Client message   ", message)
-  })
+  console.log("CONNECTION ESTABLISHEDD", socket.id)
 
 })
 
-// let namespace = io.of('/test')
-// namespace.on('connection', () => {
-//   console.log("CONNECTED")
+
+// var namespace2 = io.of('/5cb5da4cf59162d209ecbcea')
+
+// namespace2.on('connection', (socket) => {   
+//   console.log("CONNECTED", socket.id)
+
+//   socket.on('chatMessage', (data) => {
+//     console.log("Message came >> ", data)
+
+//     chatDao.chatMessage(data)
+//     namespace2.emit('chatMessage', data)
+//   })
+
+
 // })
 
-let namespace2 = io.of('/5cb5da4cf59162d209ecbcea')
 
-namespace2.on('connection', (socket) => {
-  console.log("CONNECTED")
+Chat.find({ isActive: true }).then((result) => {
+  result.forEach((element) => {
+    var namespace = io.of(`/${element._id}`)
 
-  socket.on('chatMessage', (data) => {
-    console.log("Message came >> ", data)
+    namespace.on('connection', (socket) => {
+      console.log("CONNECTED", socket.id)
+
+      socket.on('chatMessage', (data) => {
+        console.log("Message came >> ", data)
+
+        chatDao.chatMessage(data)
+        namespace.emit('chatMessage', data)
+      })
+    })
   })
 })
+
+// socketNsps.forEach((val, key) => {
+
+//   val.on('connection', (socket) => {   
+//     console.log("CONNECTED", socket.id)
+
+//     socket.on('chatMessage', (data) => {
+//       console.log("Message came >> ", data)
+
+//       chatDao.chatMessage(data)
+//       val.emit('chatMessage', data)
+//     })
+
+
+//   })
+// })
+
+
+
+
+
+
+// app.get('/send', (req, res) => {
+//   namespace2.emit('chatMessage', {name: 'hello world'})
+
+//    res.send("MESSAGE SEND ")
+// })
 
 /**
  * Socket.io 
  */
 
- 
+
 
 //Disable x-powered-by response header for appilcation security purpose
 app.disable('x-powered-by');
@@ -94,17 +139,17 @@ app.use(compression());
 
 
 //Serving images always from public folder
-app.use('/images',express.static('./client/public/images'))
+app.use('/images', express.static('./client/public/images'))
 
 
 // serving static files js/css only when environment is production otherwise will be dealed with Webpack-Dev-Server
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'))
 }
 
 
 //CORS congif
-app.use((req, res, next) =>{
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
@@ -128,17 +173,17 @@ app.get('/', (req, res) => {
 })
 
 //404
-app.use( (req, res) => {
+app.use((req, res) => {
   res.status(404).json(
     {
       "statusCode": 404,
       "success": false,
       "message": "404 Not Found",
-    
-  });
+
+    });
 });
 
 
-app.listen(PORT,  () => {
+app.listen(PORT, () => {
   console.log('Running server on ' + PORT);
 });

@@ -13,17 +13,23 @@ var createChat = (chatData) => {
  })
 }
 
-var chatMessage = (chatData) => {
+function chatMessage (chatData)  {
+        // receivedBy: [chatData.receivedBy],
+
+    console.log("CHAT DATA >>> ", chatData.sentAt)
+    console.log("CHAT DATA >>> ", chatData)
+
     let query = {_id: chatData.chatId}
     let messageData = {
         sentAt: chatData.sentAt,
         sentBy: chatData.sentBy,
-        receivedBy: [chatData.receivedBy],
-        message: chatData.message
+        chatMessage: chatData.chatMessage,
+        meesageType: chatData.messageType,
+        isViewed: false
 
     }
-    let update = {'$push': {messages: messageData}}
-     Chat.findOneAndUpdate(query, update).exec()
+    let update = {'$push': {'messages': messageData}}
+   return Chat.findOneAndUpdate(query, update).exec()
 }
 
 var getChats = (chatData) => {
@@ -50,6 +56,7 @@ var getChats = (chatData) => {
             
 
         // })
+        // chatService.createSocketNameSpace(result[0]._id)
         return Chat.populate(result, {path: 'createdBy acceptedBy', select: {_id:1, name:1}})
         
     })
