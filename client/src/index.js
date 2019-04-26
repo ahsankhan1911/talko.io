@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Auth from './Auth';
 import * as serviceWorker from './serviceWorker';
-import { getCookie, setCookie } from './utills'
+import { getCookie } from './appUtills'
 import service from './services'
 import configureStore from './store';
 import { Provider } from 'react-redux'

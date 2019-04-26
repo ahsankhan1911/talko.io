@@ -1,10 +1,10 @@
 import axios from 'axios'
-import {setCookie} from './utills'
+import {setCookie} from './appUtills'
 
 const URL = process.env.REACT_APP_API_URL
 //Headers
-const urlEncoded = {"Content-Type": "application/x-www-form-urlencoded"}
-const formData = { "content-type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"}
+// const urlEncoded = {"Content-Type": "application/x-www-form-urlencoded"}
+// const formData = { "content-type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"}
 
 class Service { 
     signupAPI (signupData) {
@@ -13,7 +13,7 @@ class Service {
 
     loginAPI (loginData) {
          axios.post(`${URL}user/login`, loginData).then((result) => {
-        if(result.data.error || result.data.statusCode != 200) {
+        if(result.data.error || result.data.statusCode !== 200) {
           alert(result.data.error.message)
         }
         else {

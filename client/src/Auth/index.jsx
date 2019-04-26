@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { isValidEmail, isValidPassword, setCookie } from '../utills'
+import { isValidEmail } from '../appUtills'
 import service from '../services'
 import Login from './components/Login'
 import Signup from './components/Signup'

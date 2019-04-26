@@ -57,7 +57,7 @@ var getChats = (chatData) => {
 
         // })
         // chatService.createSocketNameSpace(result[0]._id)
-        return Chat.populate(result, {path: 'createdBy acceptedBy', select: {_id:1, name:1}})
+        return Chat.populate(result, {path: 'createdBy acceptedBy', select: {_id:1, name:1, profilePicture:1}})
         
     })
 }

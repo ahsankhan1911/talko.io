@@ -1,6 +1,7 @@
 	import randomstring from 'randomstring';
 
 function isValidEmail(email){
+	// eslint-disable-next-line
 	var pattern = /(([a-zA-Z0-9\-?\.?]+)@(([a-zA-Z0-9\-_]+\.)+)([a-z]{2,3}))+$/;
 	return new RegExp(pattern).test(email);
 }
