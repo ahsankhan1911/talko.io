@@ -1,6 +1,7 @@
 
 
 var  getChatHeaderName = (chatsData,currentChat,user) => {
+  if(chatsData[currentChat]) {
     if (chatsData[currentChat].chatType === 'group') {
 
       return chatsData[currentChat].groupName
@@ -14,8 +15,13 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
       }
     }
   }
+  
+   return ''
+
+  }
 
  var getChaHeaderImage = (chatsData,currentChat,user ) => {
+  if(chatsData[currentChat]) {
 
     if (chatsData[currentChat].chatType === 'group') {
 
@@ -30,11 +36,14 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
         return chatsData[currentChat].createdBy.profilePicture
       }
     }
+  }
+
+  return ''
 
   }
 
  var getChatsName = (data,user) => {
-
+   if(data) {
     if (data.chatType === 'group') {
       return data.groupName
     }
@@ -47,9 +56,15 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
       }
     }
 
+   }
+   
+   return ''
+
+   
   }
 
  var getChatsImage = (data, user) => {
+  if(data) {
     if (data.chatType === 'group') {
       return data.groupImage
     }
@@ -61,13 +76,18 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
         return data.createdBy.profilePicture
       }
     }
+  }
 
+  return ''
   }
 
   var getMessageSenderName = (chatsData, currentChat, data) => {
+    if(chatsData[currentChat]) {
    return chatsData[currentChat].createdBy._id === data.sentBy ? 
           chatsData[currentChat].createdBy.name : 
           chatsData[currentChat].acceptedBy[0].name
+    }
+    return ''
   }
 
   export {

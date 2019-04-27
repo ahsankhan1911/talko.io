@@ -89,7 +89,7 @@ class App extends Component {
           isValid = false
         }
 
-        if (data.password = !data.confirmPassword) {
+        if (data.password =! data.confirmPassword) {
           let d = Id('signup-error-confirmPassword')
           d.innerText = "Password does not match"
           isValid = false
@@ -115,6 +115,7 @@ class App extends Component {
         service.loginAPI(data)
       }
       if(type === 'signup') {
+        console.log("DATe >>>" , data)
         service.signupAPI(data)
       }
     }

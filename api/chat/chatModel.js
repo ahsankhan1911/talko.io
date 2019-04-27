@@ -8,7 +8,7 @@ var ChatSchema = new Schema({
   isActive: {type: Boolean, default: true},
   createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   acceptedBy: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
-  messages: 
+  messages: [
     {
       _id: false,
       type: Object,
@@ -25,7 +25,7 @@ var ChatSchema = new Schema({
       messageType: {type: String, enum:['text', 'image', 'audio', 'video']},
       isViewed: {type: Boolean, default: false},
       chatMessage: { type: String }
-    },
+    }],
   groupName: {type: String, required: function () {this.chatType === 'group'} },
   groupImage: {type: String, required: function () {this.chatType === 'group'} }
 

@@ -25,7 +25,7 @@ class Main extends Component {
     this.state = {
       currentChat: 0,
       chats: [],
-      user: this.props.chatsData[0].user,
+      user: this.props.chatsData[0] ? this.props.chatsData[0].user : '' ,
       message: '',
 
     }
@@ -43,6 +43,7 @@ class Main extends Component {
   }
 
   componentWillMount() {
+    let {chatsData} = this.props
     console.log("component will mount")
 
     // io.connect(`http://localhost:8000/test`)
@@ -55,7 +56,7 @@ class Main extends Component {
     // });
 
     this.setState({
-      chats: this.props.chatsData[this.state.currentChat].messages
+      chats:chatsData[this.state.currentChat] ? chatsData[this.state.currentChat].messages : []
     })
 
     // socket = io.connect(`http://localhost:8000/${this.props.chatsData[0]._id}`) 
