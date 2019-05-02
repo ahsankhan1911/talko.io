@@ -51,11 +51,11 @@ var getChats = (chatData) => {
     let condition = {'$or': [  {acceptedBy: chatData.userId },  {createdBy: chatData.userId}]}
 
     return Chat.find(condition).then((result) => {
-        // result.forEach((element) => {
-        //     chatService.createSocketNameSpace(element._id)
+        result.forEach((element) => {
+            chatService.createSocketNameSpace(element._id)
             
 
-        // })
+        })
         // chatService.createSocketNameSpace(result[0]._id)
         return Chat.populate(result, {path: 'createdBy acceptedBy', select: {_id:1, name:1, profilePicture:1}})
         

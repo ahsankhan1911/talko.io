@@ -28,15 +28,14 @@ exports.userSignup = (request, response) => {
 
 
 exports.userLogin = (request, response) => {
-    console.log("HELLOOOOOOOOOOOO ")
-    visitor.pageview("/api/user/login", function (err, data) {
-        if(err) {
-          throw new Error(err)
-        }
-        else {
-          console.log("Request send to google")
-        }
-      }); 
+    // visitor.pageview("/api/user/login", function (err, data) {
+    //     if(err) {
+    //       throw new Error(err)
+    //     }
+    //     else {
+    //       console.log("Request send to google")
+    //     }
+    //   }); 
     let {email, password} = request.body
     userDoa.userLogin({email, password}).then((result) => {
         responseHandler.sendSuccess(response, result)

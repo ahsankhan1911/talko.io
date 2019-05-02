@@ -21,40 +21,37 @@ var checkIfEmailExist = (userData) => {
 var userLogin = (userData) => {
     //Email Auth
     let regex = new RegExp(userData.email.replace(userData.email, `^${userData.email}$`), 'i')
-    return User.findOne({ email: { '$regex': regex } }).then((userOnEmai) => {
-        if (userOnEmai) {
+    return User.findOne({ email: { '$regex': regex } }).then((user) => {
+        if (user) {
+
             //Password Auth
-            let regex2 = new RegExp(userOnEmai.email.replace(userOnEmai.email, `^${userOnEmai.email}$`), 'i')
-            return User.findOne({ email: { '$regex': regex2 }, password: userData.password })
-                .then((userOnPass) => {
-                    if (userOnPass) {
+            let password  = bcryptHandler.comparePassword(userData.password, user.password)
+            if(password) {
 
-                        if (userOnPass.isActive === false) {
-                            throw new Exception(3, "You have been blocked by Admin", null , 403)
-                        }
+                if (user.isActive === false) {
+                    throw new Exception(3, "You have been blocked by Admin", null , 403)
+                }
 
-                        if (userOnPass.isVerified === true) {
-                            //Adding new accessToken 
-                            // let regex3 = new RegExp(userOnPass.email.replace(userOnPass.email, `^${userOnPass.email}$`), 'i')
-                            let payload = {
-                                _id: userOnPass._id,
-                                email: userOnPass.email,
-                            }
-
-                            return jwtHandler.generateAccessToken(payload).then((result) => {
-                                return { message: "Login successfully !", userId: userOnPass._id, accessToken: result, isVerified: userOnPass.isVerified, name: userOnPass.name, email: userOnPass.email }
-                            })
-
-
-                        }
-
-                        return { message: "You have not verified your account yet.", userId: userOnPass._id, isVerified: false }
-
+                if (user.isVerified === true) {
+                    let payload = {
+                        _id: user._id,
+                        email: user.email,
                     }
-                    else {
-                        throw new Exception(2, "Password does not match",null, 401);
-                    }
-                })
+
+                    return jwtHandler.generateAccessToken(payload).then((result) => {
+                        return { message: "Login successfully !", userId: user._id, accessToken: result, isVerified: user.isVerified, name: user.name, email: user.email }
+                    })
+
+
+                }
+
+                return { message: "You have not verified your account yet.", userId: user._id, isVerified: false }
+
+            }
+
+            else {
+                throw new Exception(2, "Password does not match",null, 401);
+            }
         }
         else {
             throw new Exception(1, "No user found on this email");
