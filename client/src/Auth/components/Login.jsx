@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 
 class Login extends Component {
+
+
     constructor(props) {
         super(props);
         this.state = {
@@ -27,10 +29,10 @@ class Login extends Component {
     }
 
 
-render() {
+    render() {
 
         return (
-            <div style={{display: this.props.display}}>
+            <div style={{ display: this.props.display }}>
                 <input type="text" name="email" onChange={this.handleChangeLogin} />   <br /> <span id="login-error-email" className="error"> </span>  <br />
                 <input type="password" name="password" onChange={this.handleChangeLogin} />   <br /> <span id="login-error-password" className="error"></span> <br />
 

@@ -39,7 +39,7 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
       return data.groupName
     }
     else {
-      if (data.createdBy === user) {
+      if (data.createdBy._id === user) {
         return data.acceptedBy[0].name
       }
       else {
@@ -54,7 +54,7 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
       return data.groupImage
     }
     else {
-      if (data.createdBy === user) {
+      if (data.createdBy._id === user) {
         return data.acceptedBy[0].profilePicture
       }
       else {

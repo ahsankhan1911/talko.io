@@ -10,7 +10,7 @@ class Chats extends Component {
 
 
     render () {
-        let {chatsData, user} = this.props
+        let {chatsData, user, handleChatClick} = this.props
         return (
             <div id="chats">
             <ol style={{listStyleType: 'none'}}>
@@ -18,7 +18,7 @@ class Chats extends Component {
                 chatsData.length ?
                   chatsData.map((d, i) => {
                     return (
-                      <li key={i} style={{cursor: 'pointer'}}><span id='chating'>
+                      <li onClick={() => { handleChatClick(i)}} key={i} style={{cursor: 'pointer'}}><span id='chating'>
                         <img src={`${process.env.REACT_APP_STATIC_URL}${getChatsImage(d, user)}`} />
                       </span>{getChatsName(d, user)}</li>
                     )

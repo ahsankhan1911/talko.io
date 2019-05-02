@@ -4,9 +4,6 @@ import { isValidEmail } from '../appUtills'
 import service from '../services'
 import Login from './components/Login'
 import Signup from './components/Signup'
-// import io from 'socket.io-client';
-// const socket = io.connect('http://localhost:8000/5cb5dd88178d6adb7b25e026');
-
 
 
 class App extends Component {
@@ -18,10 +15,6 @@ class App extends Component {
     }
 
   }
-
-  componentDidMount() {
-  }
-
 
   handleSignupClick = () => {
    this.setState({

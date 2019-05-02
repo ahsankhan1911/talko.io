@@ -23,10 +23,8 @@ exports.getChats = (request, response) => {
             messages: element.messages
 
            }
-        //    console.log("ELEMENT >> ",element)
            chatData.push(obj)
        })
-// console.log("CHAT DATA >> ", chatData)
         responseHandler.sendSuccess(response, chatData, "Chats records found successfully !")
     }).catch((error) => {
 
