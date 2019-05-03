@@ -51,7 +51,6 @@ class Main extends Component {
 
 
   handleChatSend = (index) => {
-
     let message = {
       chatId: this.props.chatsData[index]._id,
       sentAt: Date.now(),

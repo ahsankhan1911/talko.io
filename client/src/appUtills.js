@@ -80,6 +80,9 @@ function eraseCookie(name) {
     document.cookie = name+'=; Max-Age=-99999999;';  
 }
 
+
+
+
 //========================== Export Module Start ==========================
 export {
 	isValidEmail,
@@ -91,6 +94,6 @@ export {
 	digitsCount,
 	setCookie,
 	getCookie,
-	eraseCookie
+	eraseCookie,
 }
 //========================== Export Module End ============================

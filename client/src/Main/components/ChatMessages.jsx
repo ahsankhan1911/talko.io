@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {getChaHeaderImage, getChatHeaderName, getMessageSenderName} from '../utils'
+import {getChaHeaderImage, getChatHeaderName, getMessageSenderName, getTimeDifference} from '../utils'
 
 
 class ChatMessages extends Component {
@@ -21,7 +21,7 @@ class ChatMessages extends Component {
                         chatsDataClient[currentChat].messages.length ? chatsDataClient[currentChat].messages.map((d, i) => {
 
                             return (
-                                <li key={i}><b>{getMessageSenderName(chatsDataClient, currentChat, d)}</b>: {d.chatMessage}</li>
+                                <li key={i}><b>{getMessageSenderName(chatsDataClient, currentChat, d)}</b> <span style={{fontSize: '10px',color: 'grey'}}> {getTimeDifference(d.sentAt)}</span> <br/> {d.chatMessage} </li>
                             )
                         }) : <li>no messages so far</li>
                     }

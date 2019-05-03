@@ -13,18 +13,13 @@ var createChat = (chatData) => {
  })
 }
 
-function chatMessage (chatData)  {
-        // receivedBy: [chatData.receivedBy],
-
-    console.log("CHAT DATA >>> ", chatData.sentAt)
-    console.log("CHAT DATA >>> ", chatData)
-
+function chatMessage (chatData)  {   
     let query = {_id: chatData.chatId}
     let messageData = {
         sentAt: chatData.sentAt,
         sentBy: chatData.sentBy,
         chatMessage: chatData.chatMessage,
-        meesageType: chatData.messageType,
+        messageType: chatData.messageType,
         isViewed: false
 
     }
@@ -51,12 +46,13 @@ var getChats = (chatData) => {
     let condition = {'$or': [  {acceptedBy: chatData.userId },  {createdBy: chatData.userId}]}
 
     return Chat.find(condition).then((result) => {
-        result.forEach((element) => {
-            chatService.createSocketNameSpace(element._id)
+        // result.forEach((element) => {
+        //     chatService.createSocketNameSpace(element._id)
             
 
-        })
+        // })
         // chatService.createSocketNameSpace(result[0]._id)
+        console.log("CHATS RESULTS",result)
         return Chat.populate(result, {path: 'createdBy acceptedBy', select: {_id:1, name:1, profilePicture:1}})
         
     })

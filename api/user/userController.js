@@ -48,9 +48,9 @@ exports.userLogin = (request, response) => {
   }   
 
 exports.userDetails = (request, response) => {
-    let { _id } = request.params
+    let { _id } = request.user
     userDoa.userDetails({ _id }).then((result) => {
-        responseHandler.sendSuccess(response, result)
+        responseHandler.sendSuccess(response, result, "Record found successfully")
     }).catch((error) => {
         responseHandler.sendError(response, error)
     })
@@ -59,14 +59,14 @@ exports.userDetails = (request, response) => {
 
 exports.userEditProfile = (request, response) => {
     let {name, age, phone} = request.body
-    let {_id }= request.params 
+    let {_id }= request.user 
     let  file = request.file
 
     if(file)
      var profilePicture = `/images/users/${file.filename}` 
 
     userDoa.userEditProfile({_id, name,profilePicture,age,phone}).then((result) => {
-        responseHandler.sendSuccess(response, {message: "user updated successfully !", user : result})
+        responseHandler.sendSuccess(response, {user : result}, "user updated successfully !")
     }).catch((error) => {
         responseHandler.sendError(response, error)
     })

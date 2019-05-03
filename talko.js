@@ -18,7 +18,8 @@ const { io, server } = require('./lib/socketIO/index')
 
 const chatDao = require('./api/chat/chatDoa')
 const Chat = require('./api/chat/chatModel')
-var socketNsps = new Map()
+
+const {requestLogger} = require('./lib/logger')
 
 // const Content = mongoose.model('Content');
 console.log("Talko app starting on", process.env.NODE_ENV, 'environment')
@@ -129,7 +130,9 @@ Chat.find({ isActive: true }).then((result) => {
  * Socket.io 
  */
 
-
+app.use('/*', (req, res, next) => {
+   requestLogger(req, res, next)
+})
 
 //Disable x-powered-by response header for appilcation security purpose
 app.disable('x-powered-by');
