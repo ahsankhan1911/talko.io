@@ -5,8 +5,8 @@ import Auth from './Auth';
 import * as serviceWorker from './serviceWorker';
 import { getCookie } from './appUtills'
 import service from './services'
-import configureStore from './store';
-import { Provider } from 'react-redux'
+// import configureStore from './store';
+// import { Provider } from 'react-redux'
 import Main from './Main'
 
 
@@ -21,9 +21,9 @@ async function authenticateUser() {
             }
             else {
                 ReactDOM.render(
-                    <Provider store={configureStore()}>
+                    // <Provider store={configureStore()}>
                         <Main  chatsData = { response.data.data}/>
-                    </Provider>
+                    // </Provider>
                 
                     , document.getElementById('root')
                 );
@@ -32,9 +32,9 @@ async function authenticateUser() {
     }
     else {
         ReactDOM.render(
-            <Provider store={configureStore()}>
+            // <Provider store={configureStore()}>
                 <Auth/>
-            </Provider>
+            // </Provider>
         
             , document.getElementById('root')
         );

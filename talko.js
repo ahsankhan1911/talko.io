@@ -130,9 +130,9 @@ Chat.find({ isActive: true }).then((result) => {
  * Socket.io 
  */
 
-app.use('/*', (req, res, next) => {
-   requestLogger(req, res, next)
-})
+// app.use('/*', (req, res, next) => {
+//    requestLogger(req, res, next)
+// })
 
 //Disable x-powered-by response header for appilcation security purpose
 app.disable('x-powered-by');
@@ -183,7 +183,8 @@ app.use((req, res) => {
       "success": false,
       "message": "404 Not Found",
 
-    });
+    }
+    );
 });
 
 

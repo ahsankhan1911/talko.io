@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
-
 import io from 'socket.io-client';
-import Chats from './components/Chats'
+import Chats from './components/Chats/'
 import ChatMessages from './components/ChatMessages'
 
 

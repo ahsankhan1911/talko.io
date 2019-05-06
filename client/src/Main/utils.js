@@ -20,7 +20,7 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
 
   }
 
- var getChaHeaderImage = (chatsData,currentChat,user ) => {
+ var getChatHeaderImage = (chatsData,currentChat,user ) => {
   if(chatsData[currentChat]) {
 
     if (chatsData[currentChat].chatType === 'group') {
@@ -90,6 +90,13 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
     return ''
   }
 
+  var getLastMessageSenderName = (data, user) => {
+    let lastIndex = data.messages.length -1
+
+    return user === data.messages[lastIndex].sentBy ? 'you' : ''
+
+  }
+
   //Chats time Difference
 function getTimeDifference(givenTime) {
 	givenTime = new Date(givenTime);
@@ -147,9 +154,10 @@ function getTimeDifference(givenTime) {
 
   export {
     getChatHeaderName,
-    getChaHeaderImage,
+    getChatHeaderImage,
     getChatsName,
     getChatsImage,
     getMessageSenderName,
-    getTimeDifference
+    getTimeDifference,
+    getLastMessageSenderName
   }

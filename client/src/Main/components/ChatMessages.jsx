@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {getChaHeaderImage, getChatHeaderName, getMessageSenderName, getTimeDifference} from '../utils'
+import {getChatHeaderImage, getChatHeaderName, getMessageSenderName, getTimeDifference, } from '../utils'
 
 
 class ChatMessages extends Component {
@@ -10,12 +10,13 @@ class ChatMessages extends Component {
 
 
     render() {
+        // console.log(this)
         let {currentChat, chatsDataClient, user,handleMessageChange,handleChatSend } = this.props
         return (
             <Fragment>
                 <ol id="chatsWindow" >
                     <div id='chatHeader' >
-                        <span id="chatPhoto"> <img src={`${process.env.REACT_APP_STATIC_URL}${getChaHeaderImage(chatsDataClient, currentChat, user)}`} /></span> <span>{getChatHeaderName(chatsDataClient, currentChat, user)}</span>
+                        <span id="chatPhoto"> <img src={`${process.env.REACT_APP_STATIC_URL}${getChatHeaderImage(chatsDataClient, currentChat, user)}`} /></span> <span>{getChatHeaderName(chatsDataClient, currentChat, user)}</span>
                     </div>
                     {
                         chatsDataClient[currentChat].messages.length ? chatsDataClient[currentChat].messages.map((d, i) => {
