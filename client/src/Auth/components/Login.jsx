@@ -37,7 +37,10 @@ class Login extends Component {
                 <input type="password" name="password" onChange={this.handleChangeLogin} />   <br /> <span id="login-error-password" className="error"></span> <br />
 
                 <button onClick={() => this.props.handleBtn(this.state.loginData, 'login')}>login</button>
-                <p>Dont have an account ? <a href="javascript:void(0)" onClick={() => this.props.handleSignupClick()}>Sign up</a></p>
+                {// eslint-disable-next-line
+                 <p>Dont have an account ? <a href="javascript:void(0)" onClick={() => this.props.handleSignupClick()}>Sign up</a></p>
+                }
+               
             </div>
         )
     }

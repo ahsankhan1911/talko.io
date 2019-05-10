@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import '../App.css';
 import io from 'socket.io-client';
 import Chats from './components/Chats/'
@@ -11,10 +11,11 @@ class Main extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       currentChat: 0,
       chatsDataClient: [],
-      user: this.props.chatsData[0].user,
+      user: this.props.chatsData[0] ? this.props.chatsData[0].user : '',
       message: '',
 
     }
@@ -90,6 +91,8 @@ class Main extends Component {
     let { chatsDataClient, currentChat, user } = this.state
     return (
       <div >
+        {chatsData.length ?  
+        <Fragment>
         <Chats chatsData={chatsData} user={user} handleChatClick={this.handleChatClick} />
         <ChatMessages
           chatsDataClient={chatsDataClient}
@@ -97,10 +100,12 @@ class Main extends Component {
           currentChat={currentChat}
           handleMessageChange={this.handleMessageChange}
           handleChatSend={this.handleChatSend}
-        />
+        /> </Fragment>: <p>Add your friends or family to start chatting. </p>}
+       
       </div>
     );
   }
 }
+
 
 export default Main;

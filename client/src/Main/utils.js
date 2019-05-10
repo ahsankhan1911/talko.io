@@ -93,7 +93,9 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
   var getLastMessageSenderName = (data, user) => {
     let lastIndex = data.messages.length -1
 
-    return user === data.messages[lastIndex].sentBy ? 'you' : ''
+    let sender = data.acceptedBy.find((d) => d._id === data.messages[lastIndex].sentBy  ) || data.createdBy  
+
+    return user === data.messages[lastIndex].sentBy ? 'you' : sender.name
 
   }
 
@@ -117,7 +119,7 @@ function getTimeDifference(givenTime) {
 	  const days = Math.floor((temp %= 31536000) / 86400);
 	  if (days) {
 		if (days < 28) {
-		  return days + ' day' + numberEnding(days);
+		  return days + ' day' + numberEnding(days) + ' ago';
 		} else {
 		  const months = [
 			'Jan',

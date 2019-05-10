@@ -251,6 +251,11 @@ var getContactReq = (userData) => {
 }   
 
 
+var verifyUserPayloadId  = (userData) => {
+
+    return User.findById(userData._id)
+}
+
 module.exports = {
     checkIfEmailExist,
     createUser,
@@ -264,5 +269,6 @@ module.exports = {
     acceptContactReq,
     deleteContactReq,
     searchUsers,
-    getContactReq
+    getContactReq,
+    verifyUserPayloadId
 }

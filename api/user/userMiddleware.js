@@ -68,8 +68,16 @@ var authenticateUserAccesstoken = (request, response,next) => {
 			
   if(accessToken) {
     jwtHandler.verifyAccessToken(accessToken).then((result) => {
-        request.user =  result.payload
-        next()
+      return  userDao.verifyUserPayloadId(result.payload).then((user) => {
+        if(user) {
+          request.user =  user
+          next()
+        }
+        else {
+          return next(new Exception(2, "No user found on this token", null, 401));
+        }
+      })
+        
        
     })
     .catch((err) => {
@@ -94,7 +102,7 @@ var authenticateUserAccesstoken = (request, response,next) => {
   }
   else {
     // response.status(401)
-    return next( new Exception(1, "No Access Token Provided !") );
+    return next( new Exception(1, "No access token provided !",null, 401) );
   }
 
 }
