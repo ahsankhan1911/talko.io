@@ -67,7 +67,7 @@ var validateData = (data, type) =>  {
         break;
 
         default: 
-        isValid = false
+        isValid = true
     }
 
     return isValid;
