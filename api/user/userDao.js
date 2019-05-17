@@ -45,7 +45,7 @@ var userLogin = (userData) => {
 
                 }
 
-                return { message: "You have not verified your account yet.", userId: user._id, isVerified: false }
+                return { message: "You have not verified your account yet.", userId: user._id, isVerified: false, email: user.email }
 
             }
 
