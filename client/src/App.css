@@ -58,3 +58,12 @@
   border-radius: 20px;
   height:20px
 }
+
+.search li {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.search li:hover {
+  background-color: lightgray
+}

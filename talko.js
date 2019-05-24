@@ -19,8 +19,6 @@ const { io, server } = require('./lib/socketIO/index')
 const chatDao = require('./api/chat/chatDoa')
 const Chat = require('./api/chat/chatModel')
 
-const {requestLogger} = require('./lib/logger')
-
 // const Content = mongoose.model('Content');
 console.log("Talko app starting on", process.env.NODE_ENV, 'environment')
 console.log()

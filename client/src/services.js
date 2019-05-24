@@ -9,15 +9,15 @@ const URL = process.env.REACT_APP_API_URL
 class Service {
 
   signupAPI(signupData) {
-   return axios.post(`${URL}user/signup`, signupData).then((result) => {
+    return axios.post(`${URL}user/signup`, signupData).then((result) => {
 
 
       if (result.data.statusCode === 500) {
-        return  alert("Opps ! Something went wrong :( ")
+        return alert("Opps ! Something went wrong :( ")
       }
       else {
         if (result.data.error || result.data.statusCode !== 200) {
-        return  alert(result.data.error.message)
+          return alert(result.data.error.message)
         }
         else {
           return result.data.data;
@@ -89,6 +89,32 @@ class Service {
         alert("Please check your Internet Connection !")
 
       })
+  }
+
+  search (searchKey , token) {
+
+  return axios.get(`${URL}user/search?key=${searchKey}`, { headers: { 'Authorization': token } }).then((result) => {
+
+      if (result.data.statusCode === 500) {
+        alert("Opps ! Something went wrong :( ")
+      }
+      else {
+        if (result.data.error || result.data.statusCode !== 200) {
+          alert(result.data.error.message)
+        }
+        else {
+           
+          return result.data.data
+        }
+
+      }
+
+
+    })
+    .catch((error) => {
+      alert("Please check your Internet Connection !")
+    })
+
   }
 
 }

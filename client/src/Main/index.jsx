@@ -3,6 +3,8 @@ import '../App.css';
 import io from 'socket.io-client';
 import Chats from './components/Chats/'
 import ChatMessages from './components/ChatMessages'
+import Search from './components/Search';
+import service from '../services';
 
 
 var sockets = []
@@ -17,6 +19,8 @@ class Main extends Component {
       chatsDataClient: [],
       user: this.props.chatsData[0] ? this.props.chatsData[0].user : '',
       message: '',
+      searchKey: '',
+      searchData: ''
 
     }
 
@@ -85,14 +89,35 @@ class Main extends Component {
     })
   }
 
-  render() {
+  handleSearchKey = (e) => {
 
+    this.setState({
+      searchKey : e.target.value
+    })
+
+  }
+
+  handleSearch = () => {
+    console.log("SEARHC WORKING ")
+    service.search(this.state.searchKey, this.props.token)
+    .then((result) => {
+      console.log(result)
+        this.setState({
+          searchData: result 
+        })
+    })
+
+  }
+
+  render() {
     let { chatsData } = this.props
     let { chatsDataClient, currentChat, user } = this.state
     return (
       <div >
-        {chatsData.length ?  
+        <input type="text" placeholder="search..." onChange ={ this.handleSearchKey} onKeyUp ={ this.handleSearch } />
+        {this.state.searchKey ? <Search data = {this.state.searchData}/> :  chatsData.length ?  
         <Fragment>
+         
         <Chats chatsData={chatsData} user={user} handleChatClick={this.handleChatClick} />
         <ChatMessages
           chatsDataClient={chatsDataClient}
@@ -100,7 +125,8 @@ class Main extends Component {
           currentChat={currentChat}
           handleMessageChange={this.handleMessageChange}
           handleChatSend={this.handleChatSend}
-        /> </Fragment>: <p>Add your friends or family to start chatting. </p>}
+        /> </Fragment>: <p>Add your friends or family to start chatting. </p>}  
+        
        
       </div>
     );
