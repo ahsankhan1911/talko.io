@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { getChatHeaderImage, getChatHeaderName, getMessageSenderName, getTimeDifference, } from '../utils'
-import { eraseCookie } from '../../appUtills'
+import { getChatHeaderImage, getChatHeaderName, getMessageSenderName, getTimeDifference, } from '../../../utils'
+import { eraseCookie } from '../../../../appUtills'
 
 
 class ChatMessages extends Component {
@@ -16,7 +16,6 @@ class ChatMessages extends Component {
     }
 
     render() {
-        // console.log(this)
         let { currentChat, chatsDataClient, user, handleMessageChange, handleChatSend } = this.props
         return (
             <Fragment>

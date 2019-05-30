@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import '../App.css';
 import io from 'socket.io-client';
-import Chats from './components/Chats/'
-import ChatMessages from './components/ChatMessages'
 import Search from './components/Search';
 import service from '../services';
+import Profile from './components/Profile';
+import Settings from './components/Settings';
+import Chat from './components/Chat';
 
 
 var sockets = []
@@ -20,7 +21,8 @@ class Main extends Component {
       user: this.props.chatsData[0] ? this.props.chatsData[0].user : '',
       message: '',
       searchKey: '',
-      searchData: ''
+      searchData: '',
+      currentComponent: ''
 
     }
 
@@ -93,41 +95,56 @@ class Main extends Component {
 
     this.setState({
       searchKey : e.target.value
+    }, () => {
+
+          this.setState({
+            currentComponent: this.state.searchKey ? 'search' : ''
+          })
+
     })
 
   }
 
   handleSearch = () => {
-    console.log("SEARHC WORKING ")
     service.search(this.state.searchKey, this.props.token)
     .then((result) => {
-      console.log(result)
         this.setState({
           searchData: result 
         })
     })
+  }
 
+  componentNavigator = () => {
+    let { chatsData } = this.props
+    let { chatsDataClient, currentChat, user } = this.state
+    switch ( this.state.currentComponent) {
+      case'search':
+      return <Search data = {this.state.searchData}/>
+
+      case 'profile': 
+      return <Profile/>
+
+      case 'settings': 
+      return <Settings/> 
+
+      default: 
+      return <Chat  
+              currentChat = {currentChat}
+              chatsData={chatsData} 
+              user={user} 
+              handleChatClick={this.handleChatClick} 
+              chatsDataClient={chatsDataClient}
+              handleMessageChange={this.handleMessageChange}
+              handleChatSend={this.handleChatSend}
+              />
+    }
   }
 
   render() {
-    let { chatsData } = this.props
-    let { chatsDataClient, currentChat, user } = this.state
     return (
       <div >
         <input type="text" placeholder="search..." onChange ={ this.handleSearchKey} onKeyUp ={ this.handleSearch } />
-        {this.state.searchKey ? <Search data = {this.state.searchData}/> :  chatsData.length ?  
-        <Fragment>
-         
-        <Chats chatsData={chatsData} user={user} handleChatClick={this.handleChatClick} />
-        <ChatMessages
-          chatsDataClient={chatsDataClient}
-          user={user}
-          currentChat={currentChat}
-          handleMessageChange={this.handleMessageChange}
-          handleChatSend={this.handleChatSend}
-        /> </Fragment>: <p>Add your friends or family to start chatting. </p>}  
-        
-       
+        {this.componentNavigator()}
       </div>
     );
   }

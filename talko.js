@@ -158,6 +158,8 @@ app.use((req, res, next) => {
   next();
 });
 
+console.log(process.argv)
+
 //body parser middleware
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({

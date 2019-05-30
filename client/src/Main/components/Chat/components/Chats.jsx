@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getChatsImage, getChatsName,getLastMessageSenderName} from '../../utils'
+import {getChatsImage, getChatsName,getLastMessageSenderName} from '../../../utils'
 
 
 class Chats extends Component {
