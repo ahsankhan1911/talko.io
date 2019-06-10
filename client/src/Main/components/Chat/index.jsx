@@ -4,17 +4,10 @@ import Chats from './components/Chats'
 
 
 class Chat extends Component {
-    // constructor(props) {
-    //     super(props);
-
-    //     this.state = {
-
-    //     }
-    // }
 
     render() {
         
-    let { chatsData , chatsDataClient, currentChat, user , handleChatClick ,handleMessageChange,handleChatSend} = this.props
+    let { chatsData, sockets , chatsDataClient, currentChat, user , handleChatClick ,handleMessageChange,handleChatSend,handleLogout,handleProfileBtn} = this.props
         return (
                chatsData.length ?  
       <Fragment>
@@ -26,6 +19,9 @@ class Chat extends Component {
         currentChat={currentChat}
         handleMessageChange={handleMessageChange}
         handleChatSend={handleChatSend}
+        handleLogout = {handleLogout}
+        handleProfileBtn = {handleProfileBtn}
+        sockets= {sockets}
       /> </Fragment>: <p>Add your friends or family to start chatting. </p>
         )
     }

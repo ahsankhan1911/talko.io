@@ -3,12 +3,7 @@ import {getChatsImage, getChatsName,getLastMessageSenderName} from '../../../uti
 
 
 class Chats extends Component {
-    // constructor(props) {
-    //     super(props);
     
-    //   }
-
-
     render () {
         let {chatsData, user, handleChatClick} = this.props
         return (

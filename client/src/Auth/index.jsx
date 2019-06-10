@@ -7,7 +7,7 @@ import { validateData } from './utils'
 import AccountVerification from './components/AccountVerification'
 
 
-class App extends Component {
+class Auth extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,11 +67,22 @@ class App extends Component {
     return (
       <div className="App">
         { 
-          showVerification ? <AccountVerification handleBtn={this.handleBtn} userData ={responseData}/> :
+          showVerification ? 
+          <AccountVerification 
+          handleBtn={this.handleBtn} 
+          userData ={responseData}
+          /> :
             <Fragment>
-              <Login handleBtn={this.handleBtn} display={loginDisplay} handleSignupClick={this.handleSignupClick} />
+              <Login 
+              handleBtn={this.handleBtn} 
+              display={loginDisplay} 
+              handleSignupClick={this.handleSignupClick} 
+              />
 
-              <Signup handleBtn={this.handleBtn} display={signupDisplay} />
+              <Signup 
+              handleBtn={this.handleBtn} 
+              display={signupDisplay} 
+              />
             </Fragment>
 
         }
@@ -81,4 +92,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Auth;

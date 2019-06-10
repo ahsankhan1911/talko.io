@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../App.css';
 import io from 'socket.io-client';
 import Search from './components/Search';
-import service from '../services';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Chat from './components/Chat';
-
+import EventHandlers from './EventHandlers'
 
 var sockets = []
 
-class Main extends Component {
+class Main extends EventHandlers {
 
   constructor(props) {
     super(props);
+
 
     this.state = {
       currentChat: 0,
@@ -22,7 +22,8 @@ class Main extends Component {
       message: '',
       searchKey: '',
       searchData: '',
-      currentComponent: ''
+      currentComponent: '',
+      profileData: ''
 
     }
 
@@ -31,12 +32,11 @@ class Main extends Component {
       sockets.push(io.connect(`${process.env.REACT_APP_SOCKET_URL}${element._id}`))
 
     });
-
   }
 
   componentWillMount() {
 
-    this.setState({
+      this.setState({
       chatsDataClient: this.props.chatsData
     })
 
@@ -56,94 +56,41 @@ class Main extends Component {
   }
 
 
-  handleChatSend = (index) => {
-    let message = {
-      chatId: this.props.chatsData[index]._id,
-      sentAt: Date.now(),
-      sentBy: this.state.user,
-      messageType: 'text',
-      chatMessage: this.state.message,
-
-    }
-
-    sockets[index].emit('chatMessage', message)
-  }
-
-  handleMessageChange = (e) => {
-
-    this.setState({
-      message: e.target.value
-    }, () => {
-      console.log(this.state.message)
-    })
-
-
-  }
-
-  /**
-   when user click on specific chat 
-  */
-  handleChatClick = (chatIndex) => {
-
-    this.setState({
-      currentChat: chatIndex,
-      chats: this.props.chatsData[chatIndex].messages
-    })
-  }
-
-  handleSearchKey = (e) => {
-
-    this.setState({
-      searchKey : e.target.value
-    }, () => {
-
-          this.setState({
-            currentComponent: this.state.searchKey ? 'search' : ''
-          })
-
-    })
-
-  }
-
-  handleSearch = () => {
-    service.search(this.state.searchKey, this.props.token)
-    .then((result) => {
-        this.setState({
-          searchData: result 
-        })
-    })
-  }
-
   componentNavigator = () => {
     let { chatsData } = this.props
     let { chatsDataClient, currentChat, user } = this.state
-    switch ( this.state.currentComponent) {
-      case'search':
-      return <Search data = {this.state.searchData}/>
+    switch (this.state.currentComponent) {
+      case 'search':
+        return <Search 
+          data={this.state.searchData}  
+          handleProfileClick = {this.handleProfileClick}/>
 
-      case 'profile': 
-      return <Profile/>
+      case 'profile':
+        return <Profile data = {this.state.profileData}/>
 
-      case 'settings': 
-      return <Settings/> 
+      case 'settings':
+        return <Settings />
 
-      default: 
-      return <Chat  
-              currentChat = {currentChat}
-              chatsData={chatsData} 
-              user={user} 
-              handleChatClick={this.handleChatClick} 
-              chatsDataClient={chatsDataClient}
-              handleMessageChange={this.handleMessageChange}
-              handleChatSend={this.handleChatSend}
-              />
+      default:
+        return <Chat
+          currentChat={currentChat}
+          chatsData={chatsData}
+          user={user}
+          handleChatClick={this.handleChatClick}
+          chatsDataClient={chatsDataClient}
+          handleMessageChange={this.handleMessageChange}
+          handleChatSend={this.handleChatSend}
+          handleLogout = {this.handleLogout}
+          handleProfileBtn = {this.handleProfileBtn}
+          sockets ={sockets}
+        />
     }
   }
 
   render() {
     return (
       <div >
-        <input type="text" placeholder="search..." onChange ={ this.handleSearchKey} onKeyUp ={ this.handleSearch } />
+        <input type="text" placeholder="search..." onChange={this.handleSearchKey} onKeyUp={this.handleSearch} />
         {this.componentNavigator()}
       </div>
     );

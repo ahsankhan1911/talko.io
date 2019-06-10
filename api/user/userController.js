@@ -2,9 +2,9 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const responseHandler = require('../../lib/responseHandler');
 const userDoa = require('./userDao');
-var ua = require('universal-analytics');
+// var ua = require('universal-analytics');
  //Google Analytics
- var visitor = ua('UA-125945051-2');
+//  var visitor = ua('UA-125945051-2');
 
 
 
@@ -56,6 +56,17 @@ exports.userDetails = (request, response) => {
     })
 
 } 
+
+exports.userDetailsEmail = (request, response) => {
+
+    let {email} = request.params
+
+    userDoa.userDetailsEmail({email}).then((result) => {
+        responseHandler.sendSuccess(response, result,"Record found successfully")
+    }).catch((error) => {
+        responseHandler.sendError(response, error)
+    })
+}
 
 exports.userEditProfile = (request, response) => {
     let {name, age, phone} = request.body
@@ -154,3 +165,4 @@ exports.getContactReq = (request, response) => {
         responseHandler.sendError(response, error)
     })
 }
+

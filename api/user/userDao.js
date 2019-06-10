@@ -109,6 +109,10 @@ var userDetails = (userData) => {
     return User.findById(userData._id, { _id: 0, name: 1, email: 1, age: 1, gender: 1, profilePicture: 1, phone: 1 })
 }
 
+var userDetailsEmail = (userData) => {
+    return User.findOne({email: userData.email},{  _id: 0, name: 1, email: 1,profilePicture: 1, gender:1, age:1})
+}
+
 var authenticateUserAccesstoken = (userData) => {
     let query = { accessToken: userData.accessToken }
     return User.findOne(query)
@@ -225,7 +229,7 @@ var searchUsers = (userData) => {
 
     aggPipe.push({ '$match': match2 })
 
-    let project = { _id: 1, name: 1, email: 1, profilePicture: 1 }
+    let project = { _id: 0, name: 1, email: 1, profilePicture: 1 }
 
     aggPipe.push({ '$project': project })
 
@@ -270,5 +274,6 @@ module.exports = {
     deleteContactReq,
     searchUsers,
     getContactReq,
-    verifyUserPayloadId
+    verifyUserPayloadId,
+    userDetailsEmail
 }

@@ -1,44 +1,51 @@
 import axios from 'axios'
-import { setCookie } from './appUtills'
+import { setCookie, getCookie, eraseCookie } from './appUtills'
 
 const URL = process.env.REACT_APP_API_URL
 //Headers
 // const urlEncoded = {"Content-Type": "application/x-www-form-urlencoded"}
 // const formData = { "content-type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"}
+const header = { headers: { 'Authorization':  getCookie('access_token') } }
+
+
+const defaultResponceHandler = (result) => {
+  if (result.data.statusCode === 500) {
+    return alert("Opps ! Something went wrong :( ")
+  }
+  else {
+    if (result.data.error || result.data.statusCode !== 200) {
+      return alert(result.data.error.message)
+    }
+    else {
+      return result.data.data;
+    }
+  }
+}
+
+const errorHandler = () => {
+  alert("Please check your Internet Connection !")
+  // window.location.reload()
+
+}
 
 class Service {
 
   signupAPI(signupData) {
-    return axios.post(`${URL}user/signup`, signupData).then((result) => {
-
-
-      if (result.data.statusCode === 500) {
-        return alert("Opps ! Something went wrong :( ")
-      }
-      else {
-        if (result.data.error || result.data.statusCode !== 200) {
-          return alert(result.data.error.message)
-        }
-        else {
-          return result.data.data;
-        }
-      }
-    })
-      .catch((error) => {
-        // console.log(error)
-        alert("Please check your Internet Connection !")
-
-      })
+    return axios.post(`${URL}user/signup`, signupData)
+      .then(defaultResponceHandler)
+      .catch(errorHandler)
   }
 
   loginAPI(loginData) {
 
     return axios.post(`${URL}user/login`, loginData).then((result) => {
       if (result.data.statusCode === 500) {
-        return alert("Opps ! Something went wrong :( ")
+         alert("Opps ! Something went wrong :( ")
+         return result
       }
       if (result.data.error || result.data.statusCode !== 200) {
-        return alert(result.data.error.message)
+         alert(result.data.error.message)
+        return result
       }
 
       if (result.data.data.isVerified === false) {
@@ -53,16 +60,12 @@ class Service {
       return access_token
 
     })
-      .catch((error) => {
-        // console.log(error)
-        alert("Please check your Internet Connection !")
-
-      })
+      .catch(errorHandler)
 
   }
 
-  getChatsAPI(token) {
-    return axios.get(`${URL}chat/get`, { headers: { 'Authorization': token } })
+  getChatsAPI() {
+    return axios.get(`${URL}chat/get`, header)
   }
 
   userVerification(userData) {
@@ -83,38 +86,28 @@ class Service {
       }
 
     })
-      .catch((error) => {
-        console.log(error)
-        // console.log(error)
-        alert("Please check your Internet Connection !")
-
-      })
+      .catch(errorHandler)
   }
 
-  search (searchKey , token) {
+  search(searchKey) {
+    return axios.get(`${URL}user/search?key=${searchKey}`, header).then(defaultResponceHandler)
+      .catch(errorHandler)
+  }
 
-  return axios.get(`${URL}user/search?key=${searchKey}`, { headers: { 'Authorization': token } }).then((result) => {
+  userDetailsEmail(email) {
+    return axios.get(`${URL}user/details/${email}`, header).then(defaultResponceHandler)
+      .catch(errorHandler)
+  }
 
-      if (result.data.statusCode === 500) {
-        alert("Opps ! Something went wrong :( ")
-      }
-      else {
-        if (result.data.error || result.data.statusCode !== 200) {
-          alert(result.data.error.message)
-        }
-        else {
-           
-          return result.data.data
-        }
+  userProfileAPI () {
+    return axios.get(`${URL}user/details`, header).then(defaultResponceHandler)
+    .catch(errorHandler)
+  }
 
-      }
+  logout () {
+    eraseCookie('access_token')
 
-
-    })
-    .catch((error) => {
-      alert("Please check your Internet Connection !")
-    })
-
+    window.location.reload()
   }
 
 }

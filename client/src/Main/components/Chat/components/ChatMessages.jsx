@@ -1,22 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { getChatHeaderImage, getChatHeaderName, getMessageSenderName, getTimeDifference, } from '../../../utils'
-import { eraseCookie } from '../../../../appUtills'
 
 
 class ChatMessages extends Component {
-    // constructor(props) {
-    //     super(props);
-
-    //   }
-
-    handleLogout = () => {
-        eraseCookie('access_token')
-
-        window.location.reload()
-    }
-
+  
     render() {
-        let { currentChat, chatsDataClient, user, handleMessageChange, handleChatSend } = this.props
+        let { currentChat,sockets, chatsDataClient, user, handleMessageChange, handleChatSend,handleLogout,handleProfileBtn } = this.props
         return (
             <Fragment>
                 <ol id="chatsWindow" >
@@ -27,7 +16,8 @@ class ChatMessages extends Component {
                             />
                         </span>
                         <span>{getChatHeaderName(chatsDataClient, currentChat, user)}</span>
-                        <span style={{ float: 'right' }}><button onClick={this.handleLogout}>logout</button></span>
+                        <span style={{ float: 'right' }}><button onClick={handleLogout}>logout</button></span>
+                        <span style={{ float: 'right' }}><button onClick={handleProfileBtn}>profile</button></span>
                     </div>
                     {
                         chatsDataClient[currentChat].messages.length ? chatsDataClient[currentChat].messages.map((d, i) => {
@@ -48,7 +38,7 @@ class ChatMessages extends Component {
                     style={{ width: '300px', height: '40px', fontSize: '15px' }}
                 /> <span>
                     <button
-                        onClick={() => { handleChatSend(currentChat) }}
+                        onClick={() => { handleChatSend(currentChat, sockets) }}
                         style={{ width: '55px', height: '45px', fontSize: '15px' }}>send
                       </button>
                 </span>

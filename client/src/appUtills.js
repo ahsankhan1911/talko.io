@@ -1,4 +1,4 @@
-	import randomstring from 'randomstring';
+import randomstring from 'randomstring';
 
 function isValidEmail(email){
 	// eslint-disable-next-line
