@@ -5,9 +5,12 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import { validateData } from './utils'
 import AccountVerification from './components/AccountVerification'
+import ons from 'onsenui';
+import {  Input, Button,  } from 'react-onsenui';
 
 
 class Auth extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +20,13 @@ class Auth extends Component {
       responseData: {}
     }
 
+  }
+  
+
+  componentDidMount () {
+    // console.log("DOCUMENT >>> ", this.refs.test.value)
+    // document.getElementById('password').placeholder = "Password"  
+    // document.getElementsByTagName('input')[1].placeholder = "Password"
   }
 
   handleSignupClick = () => {
@@ -65,8 +75,8 @@ class Auth extends Component {
   render() {
     let { showVerification, loginDisplay, signupDisplay, responseData } = this.state
     return (
-      <div className="App">
-        { 
+      <div className="App" >
+        {/* { 
           showVerification ? 
           <AccountVerification 
           handleBtn={this.handleBtn} 
@@ -85,7 +95,28 @@ class Auth extends Component {
               />
             </Fragment>
 
-        }
+        } */}
+        <h2 style={{color: 'white'}}>Log In</h2>
+        <Input
+  onChange={(event) => { this.setState({text: event.target.value})} }
+  modifier='material'
+  name= "email"
+  placeholder= "Email"
+  id="test"
+  /> <br/><br/>
+   <Input
+  onChange={(event) => { this.setState({text: event.target.value})} }
+  // modifier='material'
+  id= "password"
+  modifier= 'transparent'
+  placeholder= "Password"
+ /> <br/><br/><br/>
+
+  <Button modifier="cta" style={{backgroundColor: 'white', color: '#008000', height: '20%', width: '50%' }}>
+  
+Log In
+  </Button>
+  <p style={{color: 'white'}}>Dont have an account? <a style={{color: 'white'}} href="javascript:void(0)" >Sign up</a></p>
 
       </div>
     );

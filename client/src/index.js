@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import { getCookie } from './appUtills'
 import service from './services'
 import Main from './Main'
+import 'onsenui/css/onsenui.css';
+import 'onsenui/css/onsen-css-components.css';
 
 
 async function authenticateUser() {
