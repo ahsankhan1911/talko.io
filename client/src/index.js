@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import Auth from './Auth';
 import * as serviceWorker from './serviceWorker';
 import { getCookie } from './appUtills'
@@ -8,6 +7,9 @@ import service from './services'
 import Main from './Main'
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
+
+import './index.css';
+
 
 
 async function authenticateUser() {

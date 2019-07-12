@@ -12,3 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.page--material__background {
+  background-color: white;
+}
+.page__background {
+  background-color: white;
+}

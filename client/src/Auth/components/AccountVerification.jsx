@@ -26,9 +26,9 @@ class AccountVerification extends Component {
             verificationCode: Number(this.state.verificationCode)
         }
         return (<div>
-            <h3>We want to verify your account</h3>
+            <h5>We want to verify your account</h5>
             <label>Please enter 4 digits code sent to <b>{userData.email}</b></label><br />
-            <input type="number" onChange={this.handleChangeCode}/><br/>
+            <input type="number" maxLength="4" onChange={this.handleChangeCode}/><br/>
             <button onClick={() => handleBtn(data, 'verification')}>Verify Code</button>
 
         </div>
