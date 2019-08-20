@@ -16,8 +16,7 @@ class ChatMessages extends Component {
                             />
                         </span>
                         <span>{getChatHeaderName(chatsDataClient, currentChat, user)}</span>
-                        <span style={{ float: 'right' }}><button onClick={handleLogout}>logout</button></span>
-                        <span style={{ float: 'right' }}><button onClick={handleProfileBtn}>profile</button></span>
+                        
                     </div>
                     {
                         chatsDataClient[currentChat].messages.length ? chatsDataClient[currentChat].messages.map((d, i) => {

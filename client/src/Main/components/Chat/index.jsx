@@ -10,6 +10,7 @@ class Chat extends Component {
     let { chatsData, sockets , chatsDataClient, currentChat, user , handleChatClick ,handleMessageChange,handleChatSend,handleLogout,handleProfileBtn} = this.props
         return (
                chatsData.length ?  
+               
       <Fragment>
        
       <Chats chatsData={chatsData} user={user} handleChatClick={handleChatClick} />

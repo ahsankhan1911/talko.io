@@ -81,6 +81,7 @@ io.on('connection', (socket) => {
 
 
 Chat.find({ isActive: true }).then((result) => {
+  console.log("came here >> ", result)
   result.forEach((element) => {
     var namespace = io.of(`/${element._id}`)
 

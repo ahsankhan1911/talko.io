@@ -106,7 +106,7 @@ var userEditProfile = (userData) => {
 }
 
 var userDetails = (userData) => {
-    return User.findById(userData._id, { _id: 0, name: 1, email: 1, age: 1, gender: 1, profilePicture: 1, phone: 1 })
+    return User.findById(userData._id, { _id: 1, name: 1, email: 1, age: 1, gender: 1, profilePicture: 1, phone: 1 })
 }
 
 var userDetailsEmail = (userData) => {

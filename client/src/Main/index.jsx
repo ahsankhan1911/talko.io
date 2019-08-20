@@ -23,7 +23,8 @@ class Main extends EventHandlers {
       searchKey: '',
       searchData: '',
       currentComponent: '',
-      profileData: ''
+      profileData: '',
+      isUser: true
 
     }
 
@@ -63,10 +64,13 @@ class Main extends EventHandlers {
       case 'search':
         return <Search 
           data={this.state.searchData}  
-          handleProfileClick = {this.handleProfileClick}/>
+          handleProfileClick = {this.handleProfileClick}
+          user={user}
+          />
 
       case 'profile':
-        return <Profile data = {this.state.profileData}/>
+        return <Profile data = {this.state.profileData} isUser={this.state.isUser} 
+        handleAddAsFriendBtn={this.handleAddAsFriendBtn}/>
 
       case 'settings':
         return <Settings />
@@ -91,6 +95,8 @@ class Main extends EventHandlers {
     return (
       <div >
         <input type="text" placeholder="search..." onChange={this.handleSearchKey} onKeyUp={this.handleSearch} />
+        <span style={{ float: 'right' }}><button onClick={this.handleLogout}>logout</button></span>
+        <span style={{ float: 'right' }}><button onClick={this.handleProfileBtn}>profile</button></span>
         {this.componentNavigator()}
       </div>
     );

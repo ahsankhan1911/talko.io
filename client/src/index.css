@@ -19,3 +19,9 @@ code {
 .page__background {
   background-color: white;
 }
+
+.toolbar.toolbar--material+.page__background+.page__content {
+  top: 56px;
+  padding-top: 50%;
+
+}

@@ -104,6 +104,11 @@ class Service {
     .catch(errorHandler)
   }
 
+  sendContactReq (userData) {
+    return axios.post(`${URL}user/send-contact-request`,userData, header).then(defaultResponceHandler)
+    .catch(errorHandler)
+  }
+
   logout () {
     eraseCookie('access_token')
 

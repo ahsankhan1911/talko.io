@@ -14,7 +14,8 @@ class Profile extends Component {
  
     render() {
 
-        let { data } = this.props
+        let { data , isUser, handleAddAsFriendBtn, user} = this.props
+        console.log("PROPS >> ", this.props)
         return (
             <div>
                 {data === '' || !data.email ? 
@@ -22,11 +23,12 @@ class Profile extends Component {
                     <Fragment>
                         <img src={data.profilePicture} alt="" style={style.profilePic} /> <br />
                        
-                        <p style={style.namePara}><b>{data.name}</b></p> <Editor isUser={true}/><br />  
+                        <p style={style.namePara}><b>{data.name}</b></p> <Editor isUser={isUser}/><br />  
                         <p style={style.para}><b>Email: </b>{data.email || 'N/A'}</p>  <br />
-                        <p style={style.para}><b>Age: </b>{data.age || 'N/A'}</p>  <Editor isUser={true}/>  <br />
-                        <p style={style.para}><b>Gender: </b>{data.gender || 'N/A'}</p> <Editor isUser={true}/><br />
-                        <p style={style.para}><b>Phone: </b>{data.phone || 'N/A'}</p> <Editor isUser={true}/><br />
+                        <p style={style.para}><b>Age: </b>{data.age || 'N/A'}</p>  <Editor isUser={isUser}/>  <br />
+                        <p style={style.para}><b>Gender: </b>{data.gender || 'N/A'}</p> <Editor isUser={isUser}/><br />
+                        <p style={style.para}><b>Phone: </b>{data.phone || 'N/A'}</p> <Editor isUser={isUser}/><br /><br />
+                        {!isUser ? <button onClick={() => handleAddAsFriendBtn({data, user})} style={{border: '2px solid black'}}>Add as friend</button>: null}
                     </Fragment>
                 }
             </div>

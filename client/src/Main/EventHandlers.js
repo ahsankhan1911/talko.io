@@ -68,7 +68,8 @@ class EventHandlers extends Component {
                 }, () => {
 
                     this.setState({
-                        currentComponent: 'profile'
+                        currentComponent: 'profile', 
+                        isUser: false
                     })
                 })
             })
@@ -81,7 +82,8 @@ class EventHandlers extends Component {
 
     handleProfileBtn = () => {
         this.setState({
-            currentComponent: 'profile'
+            currentComponent: 'profile',
+            isUser: true 
         })
         service.userProfileAPI().then((result) => {
 
@@ -91,6 +93,17 @@ class EventHandlers extends Component {
             }))
         })
 
+    }
+
+    handleAddAsFriendBtn = (userData) => {
+        let message = prompt(`Send a message to ${userData.data.name}` )
+        let data = {
+            receiverId: userData.data._id,
+            requestMessage: message
+        }
+        service.sendContactReq(data).then((result) => {
+            alert(result.message)
+        })
     }
 
 }
