@@ -5,7 +5,9 @@ import Search from './components/Search';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Chat from './components/Chat';
+import Contacts from './components/Contacts'
 import EventHandlers from './EventHandlers'
+import service from '../services';
 
 var sockets = []
 
@@ -13,6 +15,17 @@ class Main extends EventHandlers {
 
   constructor(props) {
     super(props);
+
+    if(Notification.permission !== 'granted') {
+      Notification.requestPermission()
+    }
+    console.log("HERER ", Notification.permission)
+    var options = {
+      body: 'hello world',
+      // icon: icon
+  };
+ 
+    // var notification = new Notification(`You have new contact request`, options)
 
 
     this.state = {
@@ -24,9 +37,12 @@ class Main extends EventHandlers {
       searchData: '',
       currentComponent: '',
       profileData: '',
-      isUser: true
+      isUser: true,
+      requestList: []
 
     }
+
+
 
     this.props.chatsData.forEach(element => {
 
@@ -75,6 +91,12 @@ class Main extends EventHandlers {
       case 'settings':
         return <Settings />
 
+      case 'contacts' :
+        return <Contacts 
+        requestList = {this.state.requestList}
+        handleAcceptReqBtn= {this.handleAcceptReqBtn}
+        />
+
       default:
         return <Chat
           currentChat={currentChat}
@@ -97,6 +119,8 @@ class Main extends EventHandlers {
         <input type="text" placeholder="search..." onChange={this.handleSearchKey} onKeyUp={this.handleSearch} />
         <span style={{ float: 'right' }}><button onClick={this.handleLogout}>logout</button></span>
         <span style={{ float: 'right' }}><button onClick={this.handleProfileBtn}>profile</button></span>
+        <span style={{ float: 'right' }}><button onClick={this.handleContactBtn}>contacts</button></span>
+
         {this.componentNavigator()}
       </div>
     );

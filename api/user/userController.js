@@ -100,6 +100,7 @@ exports.sendContactReq =  (request, response) => {
     // let user = JSON.parse(request.user)
     let senderId = request.user._id
     let {receiverId,requestMessage} = request.body;
+    console.log(request.body)
 
        userDoa.sendContactReq({senderId, receiverId,requestMessage}).then((result) => {
              responseHandler.sendSuccess(response, {message: `Request send successfully to ${result.name} !`, receiver: result})
@@ -164,5 +165,17 @@ exports.getContactReq = (request, response) => {
     .catch((error) => {
         responseHandler.sendError(response, error)
     })
+}
+
+exports.updateSocketId = (request, response) => {
+    let _id = request.user._id
+    let {socketId} = request.body
+
+    userDoa.updateSocketId({_id,socketId}).then((result) => {
+        responseHandler.sendSuccess(response, result)
+   })
+   .catch((error) => {
+       responseHandler.sendError(response, error)
+   })
 }
 

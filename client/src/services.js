@@ -109,6 +109,20 @@ class Service {
     .catch(errorHandler)
   }
 
+  getContactReq (userData) {
+    return axios.get(`${URL}user/get-contact-request`, header).then(defaultResponceHandler)
+    .catch(errorHandler)
+  }
+
+  acceptContactReq (userData) {
+    return axios.post(`${URL}user/accept-contact-request`,userData, header).then(defaultResponceHandler)
+    .catch(errorHandler)
+  }
+
+  updateSocketId (userData) {
+    return axios.post(`${URL}user/update-socket-id`, userData, header).then(defaultResponceHandler)
+  }
+
   logout () {
     eraseCookie('access_token')
 

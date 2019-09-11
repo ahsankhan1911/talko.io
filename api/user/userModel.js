@@ -33,6 +33,7 @@ var UserSchema = new Schema({
     blockedAt: {type: Number}
   }
   ],
+  socketId: {type: String, default: null}
 },{
   versionKey:false,
   timestamps:true

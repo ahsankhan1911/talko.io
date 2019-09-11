@@ -8,7 +8,7 @@ jwtHandler  =require('../../lib/jwt'),
 
 constant = require('../../lib/constant');
 const {uploadForUser} = require('../../lib/multer')
-
+const { io} = require('../../lib/socketIO/index')
 
 
 
@@ -108,6 +108,18 @@ var authenticateUserAccesstoken = (request, response,next) => {
 }
 
 
+var getChatsSocketUpdate = (request, response, next) => {
+
+  if(request.user) {
+
+    
+
+  }
+
+     
+}
+
+
 var validationError = function(errors, next){
 if(errors && errors.length > 0){
   return next(customException.customErrorException(constant.MESSAGES.VALIDATION_ERROR, errors, 400));
@@ -119,5 +131,6 @@ module.exports = {
 validateSignUp,
 authenticateUserAccesstoken,
 uploadUserProfilePicture,
-validateProfileEdit
+validateProfileEdit,
+getChatsSocketUpdate
 }

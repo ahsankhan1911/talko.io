@@ -110,7 +110,7 @@ var userDetails = (userData) => {
 }
 
 var userDetailsEmail = (userData) => {
-    return User.findOne({email: userData.email},{  _id: 0, name: 1, email: 1,profilePicture: 1, gender:1, age:1})
+    return User.findOne({email: userData.email},{  _id: 1, name: 1, email: 1,profilePicture: 1, gender:1, age:1})
 }
 
 var authenticateUserAccesstoken = (userData) => {
@@ -162,7 +162,7 @@ var sendContactReq = (userData) => {
         if (result)
             throw new Exception(1, "You have already send a request to this user")
         else
-            return User.findOneAndUpdate(condition, update, { new: true, fields: { _id: 1, name: 1, email: 1, contactRequests: 1 } })
+            return User.findOneAndUpdate(condition, update, { new: true, fields: { _id: 1, name: 1, email: 1, contactRequests: 1 , socketId:1} })
     })
 
 }
@@ -260,6 +260,12 @@ var verifyUserPayloadId  = (userData) => {
     return User.findById(userData._id)
 }
 
+var updateSocketId = (userData) => {
+    console.log("scoket Id ", userData)
+     let update = {'$set': {socketId: userData.socketId}}
+    return User.findByIdAndUpdate(userData._id, update)
+}
+
 module.exports = {
     checkIfEmailExist,
     createUser,
@@ -275,5 +281,6 @@ module.exports = {
     searchUsers,
     getContactReq,
     verifyUserPayloadId,
-    userDetailsEmail
+    userDetailsEmail,
+    updateSocketId
 }

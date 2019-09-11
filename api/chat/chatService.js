@@ -1,5 +1,5 @@
 const {io} = require('../../lib/socketIO')
-const chatDao =  require('./chatDoa')
+// const chatDao =  require('./chatDoa')
 
 
 var createSocketNameSpace = (chatId) => {
@@ -8,12 +8,16 @@ var createSocketNameSpace = (chatId) => {
         console.log("name space created by", chatId)
       //   console.log("Socket  >>> ", socket)
 
-      socket.on('chatMessage', (data) => {
+      socket.addListener('chatMessage', (data) => {
 
          console.log('MESAGE CAME >> ', data)
-              console.log(   chatDao.getChats)
                //  namespace.emit('chatMessage', data)
-           })
+               const chatDao =  require('./chatDoa')
+
+               chatDao.chatMessage(data)
+               namespace.emit('chatMessage', data)
+      })
+
      })
 
     

@@ -18,6 +18,7 @@ const { io, server } = require('./lib/socketIO/index')
 
 const chatDao = require('./api/chat/chatDoa')
 const Chat = require('./api/chat/chatModel')
+const userDao = require('./api/user/userDao')
 
 // const Content = mongoose.model('Content');
 console.log("Talko app starting on", process.env.NODE_ENV, 'environment')
@@ -52,15 +53,29 @@ mongoose.connect("mongodb://localhost:27017/talkoDB", { useMongoClient: true }).
 /**
  * Socket.io 
  */
-server.listen(8000, () => {
-  console.log("Socket connected")
+server.listen(8000, (socket) => {
+  console.log("Socket server running on 8000")
 
 })
 
 io.on('connection', (socket) => {
 
-  console.log("CONNECTION ESTABLISHEDD", socket.id)
+  console.log("Client connected with id: ", socket.id)
 
+  io.to(socket.id).emit('idUpdated', {socketId: socket.id})
+
+  socket.on('contactReqSend', (data) => {
+    console.log("CAME HERE  adasdasd >>> ", data)
+      io.to(data.socketId).emit('contactReq', data)
+      
+    })
+  
+})
+
+io.on('contactReqSend' , (data) => {
+console.log("CAME HERE >>> ", data)
+  io.to(data.socketId).emit('contactReq', data)
+  
 })
 
 

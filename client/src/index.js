@@ -40,4 +40,4 @@ async function authenticateUser() {
 authenticateUser()
 
 
-serviceWorker.unregister();
+serviceWorker.unregister()

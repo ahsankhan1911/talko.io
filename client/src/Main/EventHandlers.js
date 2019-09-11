@@ -1,8 +1,35 @@
 import { Component } from 'react';
 import service from '../services';
+import io from 'socket.io-client';
+
+var globalSocket = io.connect(process.env.REACT_APP_SOCKET_URL)
+
+globalSocket.on('idUpdated', (data) => {
+    let {socketId} = data      
+    service.updateSocketId({socketId}).then(() => {
+
+
+
+      return console.log('Id updated to ', socketId)
+    })
+
+  })
+
+  globalSocket.on('contactReq', (data) => {
+    var notification = new Notification(`You have new contact request`)
+
+
+
+  })
+
 
 class EventHandlers extends Component {
 
+    constructor (props) {
+    super(props);
+
+    
+    }
     handleChatSend = (index, sockets) => {
         let message = {
             chatId: this.props.chatsData[index]._id,
@@ -95,16 +122,41 @@ class EventHandlers extends Component {
 
     }
 
+    handleContactBtn = () => {
+        this.setState({
+            currentComponent: 'contacts',
+            isUser: true 
+        })
+        service.getContactReq().then((result) => {
+console.log("contact result >> ", result)
+            this.setState(({
+                requestList: result,
+
+            }))
+        })
+    }
+
     handleAddAsFriendBtn = (userData) => {
+        console.log("ADD DATA >> ", userData)
         let message = prompt(`Send a message to ${userData.data.name}` )
         let data = {
             receiverId: userData.data._id,
             requestMessage: message
         }
         service.sendContactReq(data).then((result) => {
-            alert(result.message)
+            // alert(result.message)
+            globalSocket.emit('contactReqSend', {socketId: result.receiver.socketId, userId: result.receiver._id})
         })
     }
+
+
+    handleAcceptReqBtn = (userData) => {
+          service.acceptContactReq(userData).then((result) => {
+               return alert(`${result.name} is now your contact`)
+          })
+
+    }
+    
 
 }
 

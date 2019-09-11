@@ -17,6 +17,7 @@ userRouter.route('/accept-contact-request').post([userMiddleware.authenticateUse
 userRouter.route('/delete-contact-request').post([userMiddleware.authenticateUserAccesstoken], controller.deleteContactReq)
 userRouter.route('/get-contact-request').get([userMiddleware.authenticateUserAccesstoken], controller.getContactReq)
 userRouter.route('/search').get([userMiddleware.authenticateUserAccesstoken], controller.searchUsers)
+userRouter.route('/update-socket-id').post([userMiddleware.authenticateUserAccesstoken], controller.updateSocketId)
 
 
 module.exports = userRouter

@@ -1,21 +1,33 @@
 import React, { Component, Fragment } from 'react';
 
+const style = {
+    loading: { height: '110px', marginTop: '30px' },
+    profilePic: { height: '50px', borderRadius: '20px' },
+    namePara: { fontSize: '20px',display: 'inline'  },
+    para: { fontSize: '10px' , display: 'inline' }
 
-class Settings extends Component {
+}
+
+class Contacts extends Component {
 
     render() {
-      let  {requestList, handleAcceptReqBtn} = this.props
+        console.log(this.props)
+      let  {requestList, handleAcceptReqBtn,handleIngoreReqBtn} = this.props
         return (
             <div>
                 <h2> Contacts</h2>
 
                 <h3>Request List</h3>
                  <div>
+
                    {
                        requestList.map((d) => {
+                           let senderId = d.sender._id;
                            return <Fragment>
-                               <span><img src={d.profilePicture}/></span> <span>{d.name}</span> 
-                               <button onClick={handleAcceptReqBtn}></button>
+                               <span><img src={d.sender.profilePicture} style={style.profilePic}/></span> <span>{d.sender.name}</span> <br/>
+                               <button onClick={() => handleAcceptReqBtn({senderId})}>accept</button>
+                               <button onClick={handleIngoreReqBtn}>ignore</button>
+
                            </Fragment>
                        })
                    }
@@ -27,4 +39,4 @@ class Settings extends Component {
     }
 }
 
-export default Settings;
+export default Contacts;

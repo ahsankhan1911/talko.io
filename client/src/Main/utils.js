@@ -93,9 +93,9 @@ var  getChatHeaderName = (chatsData,currentChat,user) => {
   var getLastMessageSenderName = (data, user) => {
     let lastIndex = data.messages.length -1
 
-    let sender = data.acceptedBy.find((d) => d._id === data.messages[lastIndex].sentBy  ) || data.createdBy  
+    // let sender = data.acceptedBy.find((d) => d._id === data.messages[lastIndex].sentBy  ) || data.createdBy  
 
-    return user === data.messages[lastIndex].sentBy ? 'you' : sender.name
+    return data.messages[lastIndex]? user ===  data.messages[lastIndex].sentBy ? 'you: ' : null : null;
 
   }
 
