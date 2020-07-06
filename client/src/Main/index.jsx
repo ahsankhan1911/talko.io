@@ -116,6 +116,7 @@ class Main extends EventHandlers {
   render() {
     return (
       <div >
+        {Notification.permission}
         <input type="text" placeholder="search..." onChange={this.handleSearchKey} onKeyUp={this.handleSearch} />
         <span style={{ float: 'right' }}><button onClick={this.handleLogout}>logout</button></span>
         <span style={{ float: 'right' }}><button onClick={this.handleProfileBtn}>profile</button></span>
