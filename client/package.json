@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "onsenui": "^2.10.8",
     "randomstring": "^1.1.5",
     "react": "^16.8.6",
